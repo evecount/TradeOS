@@ -30,20 +30,20 @@ export default function TradeOSHome() {
         {/* Hero Section */}
         <section className="py-24 px-6 text-center max-w-5xl mx-auto space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-bold border border-accent/20">
-            <Zap className="w-4 h-4" /> Meet Your AI Business Buddy
+            <Zap className="w-4 h-4" /> Your Proactive Trade Buddy
           </div>
           <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight font-headline leading-[1.05]">
             No more follow-ups <br />
             <span className="text-primary">after a long day.</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            TradeOS is the AI buddy that handles the paperwork while you focus on the fix. It intakes clients from WhatsApp, manages your schedule, and bills site work automatically so you can actually go home when the job is done.
+            You focus on the fix. Your AI Buddy handles the paperwork, notifies clients, and sends invoices automatically so you can actually go home when the job is done.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
-            <ShadButton size="lg" className="h-14 px-10 text-lg font-bold shadow-xl" asChild>
+            <ShadButton size="lg" className="h-14 px-10 text-lg font-bold shadow-xl shadow-primary/20" asChild>
               <Link href="/dispatcher">Manage My Team</Link>
             </ShadButton>
-            <ShadButton size="lg" variant="outline" className="h-14 px-10 text-lg font-bold" asChild>
+            <ShadButton size="lg" variant="outline" className="h-14 px-10 text-lg font-bold border-2" asChild>
               <Link href="/technician">Open Field Buddy</Link>
             </ShadButton>
           </div>
@@ -101,7 +101,7 @@ export default function TradeOSHome() {
                     <FileText className="w-5 h-5 text-primary" /> AI-Generated Estimates
                   </li>
                 </ul>
-                <ShadButton asChild className="w-full h-14 rounded-2xl text-lg font-bold">
+                <ShadButton asChild className="w-full h-14 rounded-2xl text-lg font-bold shadow-lg">
                   <Link href="/dispatcher">Enter Admin Portal</Link>
                 </ShadButton>
               </CardContent>
@@ -125,7 +125,7 @@ export default function TradeOSHome() {
                     <Banknote className="w-5 h-5 text-accent" /> Proactive Client Alerts
                   </li>
                 </ul>
-                <ShadButton asChild className="w-full h-14 rounded-2xl text-lg font-bold bg-accent hover:bg-accent/90">
+                <ShadButton asChild className="w-full h-14 rounded-2xl text-lg font-bold bg-accent hover:bg-accent/90 shadow-lg">
                   <Link href="/technician">Open Field App</Link>
                 </ShadButton>
               </CardContent>
@@ -142,7 +142,9 @@ export default function TradeOSHome() {
             </div>
             <span className="text-2xl font-bold tracking-tight font-headline">TradeOS</span>
           </div>
-          <p className="text-sm text-muted-foreground font-medium">&copy; 2024 TradeOS. Built to keep tradespeople in the field and out of the office.</p>
+          <p className="text-sm text-muted-foreground font-medium text-center md:text-left">
+            &copy; 2024 TradeOS. Built to keep tradespeople in the field and out of the office.
+          </p>
         </div>
       </footer>
     </div>
