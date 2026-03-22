@@ -1,19 +1,24 @@
-# Original Project Vision
+# Original Project Vision: TradeOS
 
 ## Concept
-Create a white-label field service management platform called **TradeOS**. The goal is to provide a "Trade Operating System" for service businesses (plumbers, electricians, landscapers) that feels modern, fast, and frictionless.
+TradeOS is the **"AI Buddy"** for field service professionals. It transforms from a static CRM into a proactive orchestration layer. The goal is to ensure a tradesperson never has to manually notify a client, write a summary, or chase an invoice again.
+
+## The AI Buddy Persona
+- **Proactive:** It doesn't wait for input; it anticipates needs (reminders, notifications, part ordering).
+- **Veracious:** It audits work via site evidence to ensure the technician is protected and the client is satisfied.
+- **Frictionless:** It removes the administrative wall between "doing the job" and "getting paid."
 
 ## Key Personas
-1. **The Dispatcher (Desktop):** Needs a high-density, efficient calendar and CRM to manage a team of technicians.
-2. **The Technician (Mobile):** Needs a "massive-UI" experience that works with gloves/dirty hands, focusing only on "What's next?".
+1. **The Dispatcher (Desktop):** Orchestrates the hive, using AI to turn messy requests into clean, billable tasks.
+2. **The Technician (Mobile Companion):** A massive-UI field app where the "AI Buddy" handles all documentation and client communication in the background.
 
 ## Core Requirements
-- **Multi-tenancy:** Each business (tenant) must have completely isolated data.
-- **AI-Powered:**
-    - Help dispatchers turn messy customer phone notes into professional job descriptions.
-    - Help technicians turn quick site notes into professional summaries for customer invoices.
-- **Reliability:** Mobile-first for technicians, with an emphasis on clarity and offline-ready patterns.
-- **Frictionless Payments:** Every completed job should trigger an automated invoicing flow with a Stripe payment link.
+- **Multi-tenancy:** Isolated environments for every service business.
+- **Agentic Orchestration:**
+    - **Dispatcher Agent:** Handles messy data ingestion.
+    - **Veracity Agent:** Audits work via multimodal site evidence.
+    - **Buddy Agent:** Proactively manages client notifications and payment links.
+- **Zero Friction Payments:** Integrated Stripe flows triggered by AI-verified job completion.
 
 ## Aesthetic
-Professional, reliable, and clean. Use a color palette that evokes trust (Blues/Slates) and action (Vibrant Accents).
+Rugged, professional, and trustworthy. High-contrast UI for field visibility with "Buddy Status" indicators showing what the AI is currently handling for the user.

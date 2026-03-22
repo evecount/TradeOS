@@ -4,7 +4,7 @@ import { use, useState, useEffect } from "react";
 import { MOCK_JOBS, MOCK_CUSTOMERS } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, Camera, CheckCircle2, ChevronLeft, Navigation, AlertCircle, Wand2, User, ShieldCheck } from "lucide-react";
+import { MapPin, Phone, Camera, CheckCircle2, ChevronLeft, Navigation, AlertCircle, Wand2, User, ShieldCheck, Bell, Sparkles, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +23,7 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
   const [isVerified, setIsVerified] = useState(false);
   const [rawNotes, setRawNotes] = useState("");
   const [loadingAI, setLoadingAI] = useState(false);
+  const [buddyStatus, setBuddyStatus] = useState("Monitoring job...");
 
   if (!job || !customer) return <div>Job not found</div>;
 
@@ -32,21 +33,24 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
       return;
     }
     setCompleted(true);
+    setBuddyStatus("Job verified. Invoice sent to client.");
     toast({ 
-      title: "Job Completed", 
-      description: "Invoicing workflow triggered. Customer will receive a payment link shortly." 
+      title: "Buddy Dispatched Invoice", 
+      description: "Client notified. Your work record is archived." 
     });
   };
 
   const handlePhotoUpload = () => {
     const newPhoto = `https://picsum.photos/seed/${Math.random()}/600/400`;
     setPhotos([...photos, newPhoto]);
-    toast({ title: "Evidence Captured", description: "Site photo saved for veracity check." });
+    setBuddyStatus("Evidence captured. Ready for veracity audit.");
+    toast({ title: "Evidence Captured", description: "Buddy is ready to verify your work." });
   };
 
   const handleSummarize = async () => {
     if (!rawNotes) return;
     setLoadingAI(true);
+    setBuddyStatus("Analyzing site evidence...");
     try {
       const evidencePhotoUri = photos.length > 0 ? photos[photos.length - 1] : undefined;
       const result = await generateWorkSummary({ rawNotes, evidencePhotoUri });
@@ -55,11 +59,14 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
       setIsVerified(result.isVerified);
       
       if (result.isVerified) {
-        toast({ title: "Veracity Verified", description: `AI Confirmed: ${result.verificationLabel}` });
+        setBuddyStatus("Work verified! Ready to finalize.");
+        toast({ title: "Buddy Verified Your Fix", description: `Confirmed: ${result.verificationLabel}` });
       } else {
-        toast({ variant: "destructive", title: "Veracity Check Failed", description: "AI could not confirm notes from photo." });
+        setBuddyStatus("Evidence mismatch. Please check your notes/photo.");
+        toast({ variant: "destructive", title: "Veracity Warning", description: "Buddy couldn't match the photo to your notes." });
       }
     } catch (e) {
+      setBuddyStatus("Buddy encounterd an error.");
       toast({ variant: "destructive", title: "AI Error", description: "Could not perform veracity check." });
     } finally {
       setLoadingAI(false);
@@ -72,7 +79,7 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
         <Button asChild variant="ghost" size="icon" className="rounded-full">
           <Link href="/technician"><ChevronLeft className="w-6 h-6" /></Link>
         </Button>
-        <div>
+        <div className="flex-1">
           <h1 className="font-bold text-lg leading-tight">{job.title}</h1>
           <div className="flex items-center gap-2">
             <Badge variant={completed ? "default" : "secondary"} className="text-[10px] h-4">
@@ -80,7 +87,24 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
             </Badge>
           </div>
         </div>
+        <div className="flex flex-col items-end gap-1">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-accent/10 rounded-full border border-accent/20">
+            <Sparkles className="w-3 h-3 text-accent" />
+            <span className="text-[10px] font-bold text-accent uppercase tracking-tighter">AI Buddy Active</span>
+          </div>
+        </div>
       </header>
+
+      {/* Buddy Pulse Bar */}
+      <div className="bg-primary/5 border-b px-4 py-2 flex items-center justify-between">
+        <div className="flex items-center gap-2 text-primary">
+          {loadingAI ? <Loader2 className="w-3 h-3 animate-spin" /> : <Bell className="w-3 h-3" />}
+          <span className="text-xs font-medium">{buddyStatus}</span>
+        </div>
+        {!completed && !isVerified && !loadingAI && photos.length === 0 && (
+          <span className="text-[10px] text-muted-foreground animate-pulse">Waiting for site evidence...</span>
+        )}
+      </div>
 
       <div className="p-4 space-y-6">
         <Card className="rounded-2xl border-none shadow-sm">
@@ -113,8 +137,11 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
         </Card>
 
         <div className="space-y-4">
-          <h3 className="font-bold text-lg px-1 text-primary flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5" /> Veracity Check
+          <h3 className="font-bold text-lg px-1 text-primary flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5" /> Veracity Check
+            </div>
+            <span className="text-[10px] text-muted-foreground uppercase">Step 1: Verify Work</span>
           </h3>
           
           <div className="grid grid-cols-1 gap-4">
@@ -145,11 +172,11 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
                     onClick={handleSummarize}
                     disabled={loadingAI || !rawNotes}
                   >
-                    <Wand2 className="w-3 h-3" /> {loadingAI ? "Auditing..." : "Veracity Audit"}
+                    <Wand2 className="w-3 h-3" /> {loadingAI ? "Auditing..." : "Buddy Audit"}
                   </Button>
                 </div>
                 <Textarea 
-                  placeholder="Describe what you did..." 
+                  placeholder="Describe your fix..." 
                   className="bg-secondary/20 border-none min-h-[100px] rounded-xl text-lg p-4 focus-visible:ring-primary"
                   value={rawNotes}
                   onChange={(e) => setRawNotes(e.target.value)}
@@ -159,7 +186,7 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
                   <div className={`p-4 rounded-xl border ${isVerified ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
                     <div className="flex items-center justify-between mb-2">
                       <p className={`text-xs font-bold uppercase tracking-wider ${isVerified ? 'text-green-700' : 'text-red-700'}`}>
-                        {isVerified ? 'Verified Work Record' : 'Evidence Mismatch'}
+                        {isVerified ? 'Buddy Verified' : 'Buddy Needs Clarity'}
                       </p>
                       {verification && (
                         <Badge variant={isVerified ? "default" : "destructive"} className="text-[10px]">
