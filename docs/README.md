@@ -10,7 +10,7 @@ TradeOS is a **multi-tenant** Field Service Management (FSM) platform.
 - **Framework:** Next.js 15 (App Router)
 - **UI:** React 19, ShadCN UI, Tailwind CSS
 - **Backend/Database:** Firebase (Firestore, Authentication)
-- **AI Integration:** Genkit v1.x (Google Gemini)
+- **AI Integration:** Genkit v1.x (Google Gemini Multimodal)
 - **Language:** TypeScript
 
 ### Multi-Tenancy Model
@@ -24,7 +24,7 @@ TradeOS leverages the collective operational data of thousands of tenants to pro
 1. **Volume:** Aggregating job types to identify macro-trends (e.g., failure rates).
 2. **Velocity:** Measuring service delivery speed to predict job completion times.
 3. **Variety:** Standardizing diverse trades into a unified schema for pattern recognition.
-4. **Veracity:** Using multimodal AI agents to label and verify site evidence (photos/video) against work summaries.
+4. **Veracity:** Using multimodal AI agents to label and verify site evidence (photos/video) against work summaries. **This is the core QA layer.**
 5. **Value:** Turning operational data into actionable growth paths for small businesses.
 
 ## 🤖 Active Agents & Orchestration
@@ -32,16 +32,17 @@ TradeOS leverages the collective operational data of thousands of tenants to pro
 1. **The Dispatcher Agent (Messy Data Handler):**
    - **File:** `src/ai/flows/generate-job-description.ts`
    - **Role:** Takes unstructured customer notes and expands them into professional technical job descriptions.
-   - **Target:** Optimizes "Velocity" for the office.
+   - **Goal:** Volume & Velocity.
 
-2. **The Veracity Agent (Multimodal Labeler):**
+2. **The Veracity Agent (Multimodal QA):**
    - **File:** `src/ai/flows/generate-work-summary.ts`
    - **Role:** Correlates technician field notes with site evidence (photos) to create verified summaries for invoicing.
-   - **Target:** Ensures "Veracity" and "Value" for the customer.
+   - **Goal:** Veracity & Value.
+   - **Requirement:** Every mark-complete action should ideally trigger a veracity check.
 
 ## 🛠 Guidance for Agents (Token Efficiency)
 
 1. **Schema-First:** Always consult `docs/backend.json` first.
 2. **Predictable Variables:** Use standardized naming (`serviceBusinessId`, `technicianId`).
 3. **Frugal Generation:** Use existing ShadCN components and non-blocking Firebase utilities.
-4. **Multimodal Awareness:** When building field tools, assume AI can process both text and media to verify work.
+4. **Multimodal Awareness:** Assume AI can process both text and media to verify work. Use the `Veracity Agent` pattern for all field evidence.

@@ -4,7 +4,7 @@ import { use, useState, useEffect } from "react";
 import { MOCK_JOBS, MOCK_CUSTOMERS } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, Camera, CheckCircle2, ChevronLeft, Navigation, AlertCircle, Wand2, User } from "lucide-react";
+import { MapPin, Phone, Camera, CheckCircle2, ChevronLeft, Navigation, AlertCircle, Wand2, User, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
@@ -20,17 +20,9 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
   const [photos, setPhotos] = useState<string[]>([]);
   const [summary, setSummary] = useState("");
   const [verification, setVerification] = useState("");
+  const [isVerified, setIsVerified] = useState(false);
   const [rawNotes, setRawNotes] = useState("");
   const [loadingAI, setLoadingAI] = useState(false);
-
-  useEffect(() => {
-    const cached = localStorage.getItem(`job_${id}`);
-    if (cached) {
-      const parsed = JSON.parse(cached);
-      setJob(parsed.job);
-      setCustomer(parsed.customer);
-    }
-  }, [id]);
 
   if (!job || !customer) return <div>Job not found</div>;
 
@@ -47,24 +39,28 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
   };
 
   const handlePhotoUpload = () => {
-    // In a real app, this would use the camera. For now, a placeholder.
     const newPhoto = `https://picsum.photos/seed/${Math.random()}/600/400`;
     setPhotos([...photos, newPhoto]);
-    toast({ title: "Photo Uploaded", description: "Job evidence saved for AI verification." });
+    toast({ title: "Evidence Captured", description: "Site photo saved for veracity check." });
   };
 
   const handleSummarize = async () => {
     if (!rawNotes) return;
     setLoadingAI(true);
     try {
-      // Use the last photo as site evidence for multimodal AI labeling
       const evidencePhotoUri = photos.length > 0 ? photos[photos.length - 1] : undefined;
       const result = await generateWorkSummary({ rawNotes, evidencePhotoUri });
       setSummary(result.summary);
       setVerification(result.verificationLabel);
-      toast({ title: "Summary Generated", description: `AI Verified: ${result.verificationLabel}` });
+      setIsVerified(result.isVerified);
+      
+      if (result.isVerified) {
+        toast({ title: "Veracity Verified", description: `AI Confirmed: ${result.verificationLabel}` });
+      } else {
+        toast({ variant: "destructive", title: "Veracity Check Failed", description: "AI could not confirm notes from photo." });
+      }
     } catch (e) {
-      toast({ variant: "destructive", title: "AI Error", description: "Could not generate summary." });
+      toast({ variant: "destructive", title: "AI Error", description: "Could not perform veracity check." });
     } finally {
       setLoadingAI(false);
     }
@@ -90,7 +86,7 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
         <Card className="rounded-2xl border-none shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-md flex items-center gap-2 text-primary">
-              <User className="w-4 h-4" /> Customer Information
+              <User className="w-4 h-4" /> Customer
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -116,21 +112,10 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border-none shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-md flex items-center gap-2 text-primary">
-              <AlertCircle className="w-4 h-4" /> Job Details
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground font-medium leading-relaxed">
-              {job.description}
-            </p>
-          </CardContent>
-        </Card>
-
         <div className="space-y-4">
-          <h3 className="font-bold text-lg px-1 text-primary">Job Execution</h3>
+          <h3 className="font-bold text-lg px-1 text-primary flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5" /> Veracity Check
+          </h3>
           
           <div className="grid grid-cols-1 gap-4">
             <Button 
@@ -138,7 +123,7 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
               className="btn-massive border-2 border-primary text-primary h-32 text-xl"
               onClick={handlePhotoUpload}
             >
-              <Camera className="w-10 h-10 mb-2" /> Add Site Evidence
+              <Camera className="w-10 h-10 mb-2" /> Capture Evidence
             </Button>
 
             {photos.length > 0 && (
@@ -152,30 +137,37 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
             <Card className="rounded-2xl border-none shadow-sm p-4">
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-sm font-bold text-primary">Field Notes</label>
+                  <label className="text-sm font-bold text-primary uppercase tracking-tight">Work Notes</label>
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="h-7 text-xs gap-1 text-accent hover:bg-accent/10"
+                    className="h-7 text-xs gap-1 text-accent hover:bg-accent/10 font-bold"
                     onClick={handleSummarize}
                     disabled={loadingAI || !rawNotes}
                   >
-                    <Wand2 className="w-3 h-3" /> {loadingAI ? "Verifying..." : "AI Summarize"}
+                    <Wand2 className="w-3 h-3" /> {loadingAI ? "Auditing..." : "Veracity Audit"}
                   </Button>
                 </div>
                 <Textarea 
-                  placeholder="Notes for the summary/invoice..." 
-                  className="bg-secondary/20 border-none min-h-[80px] rounded-xl text-lg p-4"
+                  placeholder="Describe what you did..." 
+                  className="bg-secondary/20 border-none min-h-[100px] rounded-xl text-lg p-4 focus-visible:ring-primary"
                   value={rawNotes}
                   onChange={(e) => setRawNotes(e.target.value)}
                 />
+                
                 {summary && (
-                  <div className="bg-accent/5 p-4 rounded-xl border border-accent/20">
+                  <div className={`p-4 rounded-xl border ${isVerified ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
                     <div className="flex items-center justify-between mb-2">
-                      <p className="text-xs font-bold text-accent uppercase tracking-wider">Work Summary</p>
-                      {verification && <Badge variant="outline" className="text-[10px] bg-white">{verification}</Badge>}
+                      <p className={`text-xs font-bold uppercase tracking-wider ${isVerified ? 'text-green-700' : 'text-red-700'}`}>
+                        {isVerified ? 'Verified Work Record' : 'Evidence Mismatch'}
+                      </p>
+                      {verification && (
+                        <Badge variant={isVerified ? "default" : "destructive"} className="text-[10px]">
+                          {verification}
+                        </Badge>
+                      )}
                     </div>
-                    <p className="text-sm italic text-foreground">{summary}</p>
+                    <p className="text-sm italic text-foreground leading-relaxed">{summary}</p>
                   </div>
                 )}
               </div>
@@ -184,10 +176,10 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
             <Button 
               className={`btn-massive h-32 text-2xl ${completed ? 'bg-green-600' : 'bg-primary shadow-xl shadow-primary/20'}`}
               onClick={handleComplete}
-              disabled={completed}
+              disabled={completed || !isVerified}
             >
               <CheckCircle2 className="w-12 h-12 mb-2" /> 
-              {completed ? "Invoice Ready" : "Mark Complete"}
+              {completed ? "Invoice Dispatched" : isVerified ? "Finalize Job" : "Verify to Finalize"}
             </Button>
           </div>
         </div>

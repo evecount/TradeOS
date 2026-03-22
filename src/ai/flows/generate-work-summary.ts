@@ -1,25 +1,26 @@
 'use server';
 /**
- * @fileOverview An AI assistant to generate professional and high-veracity summaries of work performed.
- *
- * - generateWorkSummary - A function that generates a professional work summary from raw notes and optional site evidence.
- * - GenerateWorkSummaryInput - The input type for the generateWorkSummary function.
- * - GenerateWorkSummaryOutput - The return type for the generateWorkSummary function.
+ * @fileOverview The Veracity Agent: A multimodal AI assistant that verifies site work.
+ * 
+ * - generateWorkSummary - Generates a professional summary and verifies work via site evidence.
+ * - GenerateWorkSummaryInput - Includes raw notes and optional multimodal evidence (photo/video frames).
+ * - GenerateWorkSummaryOutput - Returns summary, verification labels, and duration estimates.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateWorkSummaryInputSchema = z.object({
-  rawNotes: z.string().describe("Raw notes from a technician about work performed or issues found."),
-  evidencePhotoUri: z.string().optional().describe("A photo of the completed work as a data URI (base64). Used for 'Veracity' audits."),
+  rawNotes: z.string().describe("Raw notes from the field technician."),
+  evidencePhotoUri: z.string().optional().describe("A photo of the completed work as a data URI (base64)."),
 });
 export type GenerateWorkSummaryInput = z.infer<typeof GenerateWorkSummaryInputSchema>;
 
 const GenerateWorkSummaryOutputSchema = z.object({
-  summary: z.string().describe("A concise, professional summary of the work performed."),
-  verificationLabel: z.string().describe("A short label describing what was visually verified in the evidence (e.g., 'New pipe fitting verified')."),
-  estimatedDuration: z.string().describe("An AI-estimated time spent based on the complexity described."),
+  summary: z.string().describe("Professional work summary for the client."),
+  verificationLabel: z.string().describe("Technical label of verified fix (e.g. 'Compression coupling seated')."),
+  isVerified: z.boolean().describe("Whether the AI can visually confirm the work described in the notes."),
+  estimatedDuration: z.string().describe("Estimated time spent based on complexity."),
 });
 export type GenerateWorkSummaryOutput = z.infer<typeof GenerateWorkSummaryOutputSchema>;
 
@@ -31,18 +32,19 @@ const prompt = ai.definePrompt({
   name: 'generateWorkSummaryPrompt',
   input: {schema: GenerateWorkSummaryInputSchema},
   output: {schema: GenerateWorkSummaryOutputSchema},
-  prompt: `You are the 'Veracity Agent' for TradeOS. Your goal is to generate a professional summary and verify site evidence.
+  prompt: `You are the 'Veracity Agent' for TradeOS. Your mission is to provide high-veracity auditing of trade work.
 
-Guidelines:
-- Transform raw notes into customer-friendly language.
-- If a photo is provided, identify what was fixed or installed to ensure 'Veracity'.
-- Estimate duration based on standard trade practices for the described task.
+TASK:
+1. Transform raw field notes into a professional summary for an invoice.
+2. IF a photo is provided: Analyze it to see if it confirms the technician's notes.
+3. PROVIDE a specific 'verificationLabel' describing the technical component identified (e.g., 'New P-Trap installed', 'Breaker reset verified').
+4. ESTIMATE the job duration based on industry standards for the task.
 
 Technician's Raw Notes:
 {{{rawNotes}}}
 
 {{#if evidencePhotoUri}}
-Site Evidence (Photo): {{media url=evidencePhotoUri}}
+Site Evidence (Multimodal Input): {{media url=evidencePhotoUri}}
 {{/if}}`,
 });
 
