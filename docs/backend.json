@@ -7,13 +7,18 @@
       "properties": {
         "id": { "type": "string" },
         "name": { "type": "string" },
+        "industry": { 
+          "type": "string", 
+          "enum": ["plumbing", "electrical", "hvac", "landscaping", "auto_repair", "cleaning", "general_contracting"],
+          "description": "The primary industry of the business, used for global pattern indexing."
+        },
         "contactEmail": { "type": "string", "format": "email" },
         "contactPhone": { "type": "string" },
         "address": { "type": "string" },
         "logoUrl": { "type": "string", "format": "uri" },
         "stripeAccountId": { "type": "string" }
       },
-      "required": ["id", "name", "contactEmail", "contactPhone", "address"]
+      "required": ["id", "name", "industry", "contactEmail", "contactPhone", "address"]
     },
     "Customer": {
       "title": "Customer",
@@ -56,10 +61,20 @@
         "technicianId": { "type": "string" },
         "title": { "type": "string" },
         "description": { "type": "string" },
+        "jobType": {
+          "type": "string",
+          "enum": ["emergency", "repair", "maintenance", "installation", "consultation"],
+          "description": "Standardized category for cross-tenant velocity analysis."
+        },
         "status": { "type": "string", "enum": ["scheduled", "in_progress", "completed", "cancelled"] },
         "scheduledStartDateTime": { "type": "string", "format": "date-time" },
         "serviceAddress": { "type": "string" },
-        "workSummary": { "type": "string" }
+        "workSummary": { "type": "string" },
+        "tags": { 
+          "type": "array", 
+          "items": { "type": "string" },
+          "description": "Specific trade keywords (e.g., 'pipe-leak', 'brake-pads') for value indexing."
+        }
       },
       "required": ["id", "serviceBusinessId", "customerId", "technicianId", "title", "status"]
     }

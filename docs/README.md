@@ -20,14 +20,18 @@ Isolation is handled at the `ServiceBusiness` level.
 
 ## 🧠 The "Hive Intelligence" Vision
 TradeOS isn't just an app; it's a **Hive of Trades**. Because every tenant's data follows the exact same variables indexed in `backend.json`, AI agents can:
-1. **Cross-Tenant Learning:** Observe patterns in how "Plumbers in the Northeast" handle winter emergencies without ever accessing private customer PII.
-2. **Standardized Reasoning:** Use the "set schema" as a logic bridge to provide industry-standard recommendations across isolated tenants.
-3. **Hive Persistence:** As the platform grows, the "Hive" gets smarter, teaching every new tenant the best practices discovered by the collective.
+1. **Universal Trade Logic:** Treat specific trades (plumbing, auto repair) as *values* rather than unique code structures. A "booking" is a "booking" regardless of the wrench size.
+2. **Deep Learning Indexing:** Standardized fields like `industry`, `jobType`, and `tags` allow the Hive to measure:
+    - **Volume:** How many HVAC emergencies happen during a heatwave?
+    - **Velocity:** How fast can a standard brake job be completed across 500 shops?
+    - **Veracity:** Cross-referencing site evidence photos with work summaries to ensure audit-grade accuracy.
+    - **Value:** Identifying high-margin services across the collective to recommend growth paths to small businesses.
+3. **Privacy-Preserving Learning:** Observe patterns without ever accessing private customer PII.
 
 ## 🤖 Guidance for Agents (Token Efficiency)
 
-1. **Schema-First:** Always consult `docs/backend.json` first. Do not guess field names. This is our "Single Source of Truth."
-2. **Predictable Variables:** Use standardized naming conventions (e.g., `serviceBusinessId`, `technicianId`). This allows for deep learning indexing.
+1. **Schema-First:** Always consult `docs/backend.json` first. Do not guess field names.
+2. **Predictable Variables:** Use standardized naming (e.g., `serviceBusinessId`, `technicianId`). This allows the Hive to index your work.
 3. **Frugal Generation:** Use existing ShadCN components and non-blocking Firebase utilities.
 
 ## 🛠 Active Features
