@@ -6,21 +6,78 @@ export const MOCK_BUSINESS: Business = {
 };
 
 export const MOCK_CUSTOMERS: Customer[] = [
-  { id: 'c_1', name: 'John Miller', phone: '555-0123', address: '123 Oak St, Springfield', email: 'john@example.com' },
-  { id: 'c_2', name: 'Sarah Wilson', phone: '555-0456', address: '456 Maple Ave, Riverside', email: 'sarah@example.com' },
-  { id: 'c_3', name: 'David Brown', phone: '555-0789', address: '789 Pine Rd, Hill Valley', email: 'david@example.com' },
+  { 
+    id: 'c_1', 
+    serviceBusinessId: 'biz_1',
+    firstName: 'John',
+    lastName: 'Miller',
+    name: 'John Miller', 
+    phone: '555-0123', 
+    address: '123 Oak St, Springfield', 
+    email: 'john@example.com' 
+  },
+  { 
+    id: 'c_2', 
+    serviceBusinessId: 'biz_1',
+    firstName: 'Sarah',
+    lastName: 'Wilson',
+    name: 'Sarah Wilson', 
+    phone: '555-0456', 
+    address: '456 Maple Ave, Riverside', 
+    email: 'sarah@example.com' 
+  },
+  { 
+    id: 'c_3', 
+    serviceBusinessId: 'biz_1',
+    firstName: 'David',
+    lastName: 'Brown',
+    name: 'David Brown', 
+    phone: '555-0789', 
+    address: '789 Pine Rd, Hill Valley', 
+    email: 'david@example.com' 
+  },
 ];
 
 export const MOCK_TECHNICIANS: Technician[] = [
-  { id: 't_1', name: 'Alex Rivera', specialty: 'Plumbing', avatar: 'https://picsum.photos/seed/1/100/100' },
-  { id: 't_2', name: 'Chris Evans', specialty: 'Electrical', avatar: 'https://picsum.photos/seed/2/100/100' },
-  { id: 't_3', name: 'Jordan Lee', specialty: 'Landscaping', avatar: 'https://picsum.photos/seed/3/100/100' },
+  { 
+    id: 't_1', 
+    serviceBusinessId: 'biz_1',
+    firstName: 'Alex',
+    lastName: 'Rivera',
+    name: 'Alex Rivera', 
+    specialty: 'Plumbing', 
+    avatar: 'https://picsum.photos/seed/1/100/100',
+    isActive: true,
+    isDispatcher: false
+  },
+  { 
+    id: 't_2', 
+    serviceBusinessId: 'biz_1',
+    firstName: 'Chris',
+    lastName: 'Evans',
+    name: 'Chris Evans', 
+    specialty: 'Electrical', 
+    avatar: 'https://picsum.photos/seed/2/100/100',
+    isActive: true,
+    isDispatcher: true
+  },
+  { 
+    id: 't_3', 
+    serviceBusinessId: 'biz_1',
+    firstName: 'Jordan',
+    lastName: 'Lee',
+    name: 'Jordan Lee', 
+    specialty: 'Landscaping', 
+    avatar: 'https://picsum.photos/seed/3/100/100',
+    isActive: true,
+    isDispatcher: false
+  },
 ];
 
 export const MOCK_JOBS: Job[] = [
   {
     id: 'j_1',
-    businessId: 'biz_1',
+    serviceBusinessId: 'biz_1',
     customerId: 'c_1',
     technicianId: 't_1',
     title: 'Leaky Faucet Repair',
@@ -28,11 +85,12 @@ export const MOCK_JOBS: Job[] = [
     status: 'scheduled',
     date: new Date().toISOString().split('T')[0],
     time: '09:00 AM',
-    photos: []
+    photos: [],
+    serviceAddress: '123 Oak St, Springfield'
   },
   {
     id: 'j_2',
-    businessId: 'biz_1',
+    serviceBusinessId: 'biz_1',
     customerId: 'c_2',
     technicianId: 't_1',
     title: 'Toilet Installation',
@@ -40,11 +98,12 @@ export const MOCK_JOBS: Job[] = [
     status: 'scheduled',
     date: new Date().toISOString().split('T')[0],
     time: '01:00 PM',
-    photos: []
+    photos: [],
+    serviceAddress: '456 Maple Ave, Riverside'
   },
   {
     id: 'j_3',
-    businessId: 'biz_1',
+    serviceBusinessId: 'biz_1',
     customerId: 'c_3',
     technicianId: 't_2',
     title: 'Faulty Breaker',
@@ -52,6 +111,7 @@ export const MOCK_JOBS: Job[] = [
     status: 'scheduled',
     date: new Date().toISOString().split('T')[0],
     time: '10:30 AM',
-    photos: []
+    photos: [],
+    serviceAddress: '789 Pine Rd, Hill Valley'
   }
 ];

@@ -5,7 +5,10 @@ export type Business = {
 
 export type Customer = {
   id: string;
-  name: string;
+  serviceBusinessId: string;
+  firstName: string;
+  lastName: string;
+  name: string; // Helper for UI
   phone: string;
   address: string;
   email: string;
@@ -13,16 +16,21 @@ export type Customer = {
 
 export type Technician = {
   id: string;
-  name: string;
+  serviceBusinessId: string;
+  firstName: string;
+  lastName: string;
+  name: string; // Helper for UI
   specialty: string;
   avatar?: string;
+  isDispatcher?: boolean;
+  isActive: boolean;
 };
 
 export type JobStatus = 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
 
 export type Job = {
   id: string;
-  businessId: string;
+  serviceBusinessId: string;
   customerId: string;
   technicianId: string;
   title: string;
@@ -32,11 +40,14 @@ export type Job = {
   time: string;
   photos: string[];
   workSummary?: string;
+  serviceAddress: string;
 };
 
 export type Invoice = {
   id: string;
+  serviceBusinessId: string;
   jobId: string;
+  invoiceNumber: string;
   amount: number;
   status: 'pending' | 'paid';
   link: string;
