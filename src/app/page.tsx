@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Wrench, LayoutDashboard, Truck, ShieldCheck, Zap, Globe, BrainCircuit } from "lucide-react";
+import { Wrench, LayoutDashboard, Truck, ShieldCheck, Zap, Globe, BrainCircuit, FileText, Banknote } from "lucide-react";
 
 export default function TradeOSHome() {
   return (
@@ -30,14 +30,14 @@ export default function TradeOSHome() {
         {/* Hero Section */}
         <section className="py-24 px-6 text-center max-w-5xl mx-auto space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-bold border border-accent/20">
-            <BrainCircuit className="w-4 h-4" /> Powered by Trade-Hive Collective Intelligence
+            <Zap className="w-4 h-4" /> Stop the Paperwork. Start the Growth.
           </div>
           <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight font-headline leading-[1.05]">
-            Own Your Portal. <br />
+            Kill the Paperwork. <br />
             <span className="text-primary">Master Your Trade.</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            TradeOS is the multi-tenant platform for service pros. Create your own private portal for dispatching, customer CRM, and AI-powered field summaries.
+            TradeOS is the only platform where you fix it, and our AI bills it. Automated invoicing, professional CRM, and a portal that belongs entirely to your business.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
             <Button size="lg" className="h-14 px-10 text-lg font-bold shadow-xl" asChild>
@@ -52,30 +52,30 @@ export default function TradeOSHome() {
         {/* Feature Grid */}
         <section className="max-w-7xl mx-auto px-6 py-24 border-t border-b bg-secondary/10">
           <div className="text-center mb-16 space-y-4">
-            <h2 className="text-4xl font-bold font-headline">The Platform Advantage</h2>
-            <p className="text-muted-foreground text-lg">Your data is isolated. Your intelligence is global.</p>
+            <h2 className="text-4xl font-bold font-headline">Built for Action, Not Admin</h2>
+            <p className="text-muted-foreground text-lg">We use Hive Intelligence to turn field evidence into paid invoices instantly.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-12">
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
               <div className="bg-primary/10 w-12 h-12 rounded-2xl flex items-center justify-center text-primary">
-                <Globe className="w-6 h-6" />
+                <Banknote className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-headline">Isolated Tenants</h3>
-              <p className="text-muted-foreground">Every business gets a dedicated workspace and private database. Your client list stays yours.</p>
+              <h3 className="text-xl font-bold font-headline">Instant Invoicing</h3>
+              <p className="text-muted-foreground">Stop chasing checks. Every completed job triggers a Stripe payment link to the customer automatically.</p>
             </div>
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
               <div className="bg-accent/10 w-12 h-12 rounded-2xl flex items-center justify-center text-accent">
                 <BrainCircuit className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-headline">Hive Intelligence</h3>
-              <p className="text-muted-foreground">Our "Collective Schema" allows AI to learn industry patterns while respecting your data privacy.</p>
+              <h3 className="text-xl font-bold font-headline">The Veracity Agent</h3>
+              <p className="text-muted-foreground">Our AI audits every job via site photos. It labels the work, verifies the fix, and builds the technical summary for you.</p>
             </div>
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
               <div className="bg-green-500/10 w-12 h-12 rounded-2xl flex items-center justify-center text-green-600">
-                <Zap className="w-6 h-6" />
+                <FileText className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-headline">AI Orchestration</h3>
-              <p className="text-muted-foreground">Turn messy notes into professional descriptions instantly. Save hours of paperwork daily.</p>
+              <h3 className="text-xl font-bold font-headline">Zero Manual Notes</h3>
+              <p className="text-muted-foreground">Talk to the app, show it the fix. We turn messy field observations into professional client-facing records in seconds.</p>
             </div>
           </div>
         </section>
@@ -86,19 +86,19 @@ export default function TradeOSHome() {
             <Card className="border-none shadow-2xl rounded-3xl overflow-hidden group">
               <CardHeader className="bg-primary p-10 text-primary-foreground">
                 <LayoutDashboard className="w-12 h-12 mb-4 opacity-80" />
-                <CardTitle className="text-4xl font-headline">For the Office</CardTitle>
-                <CardDescription className="text-primary-foreground/80 text-xl">Dispatch, schedule, and grow your empire.</CardDescription>
+                <CardTitle className="text-4xl font-headline">The Office Hub</CardTitle>
+                <CardDescription className="text-primary-foreground/80 text-xl">Dispatch, schedule, and automate your back-office.</CardDescription>
               </CardHeader>
               <CardContent className="p-10 space-y-8">
                 <ul className="space-y-4 text-lg font-medium">
                   <li className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary" /> Drag-and-drop daily schedule
+                    <div className="w-2 h-2 rounded-full bg-primary" /> Drag-and-drop daily dispatch
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary" /> Multi-tenant business portal
+                    <div className="w-2 h-2 rounded-full bg-primary" /> AI-generated professional quotes
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary" /> Professional customer CRM
+                    <div className="w-2 h-2 rounded-full bg-primary" /> Multi-tenant customer CRM
                   </li>
                 </ul>
                 <Button asChild className="w-full h-14 rounded-2xl text-lg font-bold">
@@ -110,8 +110,8 @@ export default function TradeOSHome() {
             <Card className="border-none shadow-2xl rounded-3xl overflow-hidden group">
               <CardHeader className="bg-accent p-10 text-accent-foreground">
                 <Truck className="w-12 h-12 mb-4 opacity-80" />
-                <CardTitle className="text-4xl font-headline">For the Field</CardTitle>
-                <CardDescription className="text-accent-foreground/80 text-xl">Massive-UI for the frontline technician.</CardDescription>
+                <CardTitle className="text-4xl font-headline">The Field App</CardTitle>
+                <CardDescription className="text-accent-foreground/80 text-xl">Massive UI for gloves-on productivity.</CardDescription>
               </CardHeader>
               <CardContent className="p-10 space-y-8">
                 <ul className="space-y-4 text-lg font-medium">
@@ -119,10 +119,10 @@ export default function TradeOSHome() {
                     <div className="w-2 h-2 rounded-full bg-accent" /> Glove-friendly "Massive UI"
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-accent" /> AI-generated work summaries
+                    <div className="w-2 h-2 rounded-full bg-accent" /> AI Veracity work auditing
                   </li>
                   <li className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-accent" /> Offline-first site evidence
+                    <div className="w-2 h-2 rounded-full bg-accent" /> Automated site evidence capture
                   </li>
                 </ul>
                 <Button asChild className="w-full h-14 rounded-2xl text-lg font-bold bg-accent hover:bg-accent/90">
