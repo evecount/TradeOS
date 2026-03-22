@@ -33,11 +33,11 @@ export default function TradeOSHome() {
             <Zap className="w-4 h-4" /> Meet Your AI Business Buddy
           </div>
           <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight font-headline leading-[1.05]">
-            Focus on the Fix. <br />
-            <span className="text-primary">No more paperwork after hours.</span>
+            No more follow-ups <br />
+            <span className="text-primary">after a long day.</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Stop the follow-ups at the end of a long day. TradeOS is the AI buddy that intakes clients from WhatsApp, manages your schedule without double-booking, and bills site work automatically.
+            TradeOS is the AI buddy that handles the paperwork while you focus on the fix. It intakes clients from WhatsApp, manages your schedule, and bills site work automatically so you can actually go home when the job is done.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
             <ShadButton size="lg" className="h-14 px-10 text-lg font-bold shadow-xl" asChild>
