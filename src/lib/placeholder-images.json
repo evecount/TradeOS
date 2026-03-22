@@ -1,3 +1,22 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "avatar-tech-1",
+      "description": "Technician Alex",
+      "imageUrl": "https://picsum.photos/seed/tech1/100/100",
+      "imageHint": "technician portrait"
+    },
+    {
+      "id": "avatar-tech-2",
+      "description": "Technician Chris",
+      "imageUrl": "https://picsum.photos/seed/tech2/100/100",
+      "imageHint": "worker portrait"
+    },
+    {
+      "id": "job-evidence-1",
+      "description": "Plumbing leak",
+      "imageUrl": "https://picsum.photos/seed/job1/600/400",
+      "imageHint": "broken pipe"
+    }
+  ]
 }
