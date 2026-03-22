@@ -32,9 +32,11 @@ TradeOS is a **multi-tenant** Field Service Management (FSM) platform centered a
 3. **The Buddy Agent (Proactive Automation):**
    - **Trigger:** Job status changes (e.g., 'En Route', 'In Progress').
    - **Action:** Sends client SMS/Email notifications, prepares invoice drafts, and reminders for technicians.
+   - **Persona:** A supportive companion that handles the "paperwork" so the technician can focus on the trade.
 
 ## 🛠 Guidance for Agents
 
 1. **Schema-First:** Consult `docs/backend.json`. All jobs MUST have a `serviceBusinessId`.
 2. **Predictable Orchestration:** Every 'Job Completed' status change should be preceded by a `Veracity Audit`.
-3. **Proactive UI:** Surface what the "AI Buddy" is doing (e.g., "AI is notifying the client", "Verification complete").
+3. **Proactive UI:** Surface what the "AI Buddy" is doing (e.g., "Buddy is notifying the client", "Verification complete"). Use the `buddyStatus` state in the Technician UI to communicate this.
+4. **Token Efficiency:** When extending logic, reuse existing Genkit flows and Firestore non-blocking utilities. Avoid redundant data structures.

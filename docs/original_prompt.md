@@ -7,6 +7,7 @@ TradeOS is the **"AI Buddy"** for field service professionals. It transforms fro
 - **Proactive:** It doesn't wait for input; it anticipates needs (reminders, notifications, part ordering).
 - **Veracious:** It audits work via site evidence to ensure the technician is protected and the client is satisfied.
 - **Frictionless:** It removes the administrative wall between "doing the job" and "getting paid."
+- **Supportive:** It "watches the back" of the tradesperson, handling the paperwork while they stay focused on the fix.
 
 ## Key Personas
 1. **The Dispatcher (Desktop):** Orchestrates the hive, using AI to turn messy requests into clean, billable tasks.

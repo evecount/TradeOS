@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import { Button } from "@/components/ui/card";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Wrench, LayoutDashboard, Truck, ShieldCheck, Zap, Globe, BrainCircuit, FileText, Banknote, BellRing, CalendarCheck2, MessageSquareText } from "lucide-react";
+import { Wrench, LayoutDashboard, Truck, ShieldCheck, Zap, BellRing, CalendarCheck2, Banknote, MessageSquareText, FileText } from "lucide-react";
 import { Button as ShadButton } from "@/components/ui/button";
 
 export default function TradeOSHome() {
@@ -31,18 +30,18 @@ export default function TradeOSHome() {
         {/* Hero Section */}
         <section className="py-24 px-6 text-center max-w-5xl mx-auto space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-bold border border-accent/20">
-            <Zap className="w-4 h-4" /> Your Proactive AI Business Buddy
+            <Zap className="w-4 h-4" /> Meet Your AI Business Buddy
           </div>
           <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight font-headline leading-[1.05]">
             You Fix It. <br />
-            <span className="text-primary">Your AI Buddy Bills It.</span>
+            <span className="text-primary">Your Buddy Bills It.</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Stop worrying about paperwork, reminders, and chasing checks. TradeOS is the AI partner that schedules your day, updates your clients, and handles your invoicing while you work.
+            Stop the paperwork at the end of a long day. TradeOS is the AI buddy that handles your scheduling, texts your clients, and gets you paid while you're still on site.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
             <ShadButton size="lg" className="h-14 px-10 text-lg font-bold shadow-xl" asChild>
-              <Link href="/dispatcher">Launch My Business Portal</Link>
+              <Link href="/dispatcher">Open My Portal</Link>
             </ShadButton>
             <ShadButton size="lg" variant="outline" className="h-14 px-10 text-lg font-bold" asChild>
               <Link href="/technician">Try the Field App</Link>
@@ -53,8 +52,8 @@ export default function TradeOSHome() {
         {/* The "Buddy" Feature Grid */}
         <section className="max-w-7xl mx-auto px-6 py-24 border-t border-b bg-secondary/10">
           <div className="text-center mb-16 space-y-4">
-            <h2 className="text-4xl font-bold font-headline">The Buddy System</h2>
-            <p className="text-muted-foreground text-lg">Your AI buddy never sleeps, ensuring your business stays ahead of the game.</p>
+            <h2 className="text-4xl font-bold font-headline">No More Paperwork</h2>
+            <p className="text-muted-foreground text-lg">Your AI buddy never sleeps, so you can actually enjoy your evening.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-12">
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
@@ -62,21 +61,21 @@ export default function TradeOSHome() {
                 <BellRing className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold font-headline">Client Concierge</h3>
-              <p className="text-muted-foreground">The AI automatically texts your clients when you're en route and sends a 'Job Complete' summary the moment you finish.</p>
+              <p className="text-muted-foreground">The AI automatically texts your clients when you're en route and sends a professional 'Job Complete' summary the moment you're done.</p>
             </div>
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
               <div className="bg-accent/10 w-12 h-12 rounded-2xl flex items-center justify-center text-accent">
                 <CalendarCheck2 className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold font-headline">Proactive Scheduler</h3>
-              <p className="text-muted-foreground">It reminds you of upcoming jobs, warns you about traffic, and even suggests ordering parts based on the job description.</p>
+              <p className="text-muted-foreground">It reminds you of upcoming jobs, warns you about traffic, and keeps your day moving without you checking a calendar.</p>
             </div>
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
               <div className="bg-green-500/10 w-12 h-12 rounded-2xl flex items-center justify-center text-green-600">
                 <Banknote className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-headline">Auto-Pilot Invoicing</h3>
-              <p className="text-muted-foreground">Forget manual billing. Once your AI Buddy verifies the fix via site photos, it sends the Stripe payment link instantly.</p>
+              <h3 className="text-xl font-bold font-headline">Auto-Pilot Payments</h3>
+              <p className="text-muted-foreground">Forget manual billing. Once your AI Buddy verifies the fix via site photos, it sends the payment link instantly.</p>
             </div>
           </div>
         </section>
