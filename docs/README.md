@@ -32,13 +32,13 @@ TradeOS leverages the collective operational data of thousands of tenants to pro
 1. **The Dispatcher Agent (Messy Data Handler):**
    - **File:** `src/ai/flows/generate-job-description.ts`
    - **Role:** Takes unstructured customer notes and expands them into professional technical job descriptions.
-   - **Goal:** Volume & Velocity.
+   - **Trigger:** Job creation modal (`CreateJobModal.tsx`).
 
 2. **The Veracity Agent (Multimodal QA):**
    - **File:** `src/ai/flows/generate-work-summary.ts`
    - **Role:** Correlates technician field notes with site evidence (photos) to create verified summaries for invoicing.
-   - **Goal:** Veracity & Value.
-   - **Requirement:** Every mark-complete action should ideally trigger a veracity check.
+   - **Output:** Returns a `verificationLabel` (technical ID of the fix) and `isVerified` (boolean).
+   - **Requirement:** Every mark-complete action should trigger a veracity check.
 
 ## 🛠 Guidance for Agents (Token Efficiency)
 
