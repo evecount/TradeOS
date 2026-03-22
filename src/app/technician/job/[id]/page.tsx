@@ -4,7 +4,7 @@ import { use, useState, useEffect } from "react";
 import { MOCK_JOBS, MOCK_CUSTOMERS } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, Camera, CheckCircle2, ChevronLeft, Navigation, MessageSquare, AlertCircle, Wand2 } from "lucide-react";
+import { MapPin, Phone, Camera, CheckCircle2, ChevronLeft, Navigation, AlertCircle, Wand2, User } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
@@ -19,10 +19,10 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
   const [completed, setCompleted] = useState(job?.status === 'completed');
   const [photos, setPhotos] = useState<string[]>([]);
   const [summary, setSummary] = useState("");
+  const [verification, setVerification] = useState("");
   const [rawNotes, setRawNotes] = useState("");
   const [loadingAI, setLoadingAI] = useState(false);
 
-  // Offline support simulation: Load from localStorage if available
   useEffect(() => {
     const cached = localStorage.getItem(`job_${id}`);
     if (cached) {
@@ -42,24 +42,27 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
     setCompleted(true);
     toast({ 
       title: "Job Completed", 
-      description: "Invoicing workflow triggered. Customer will receive a payment link via SMS/Email shortly." 
+      description: "Invoicing workflow triggered. Customer will receive a payment link shortly." 
     });
-    // In a real app, this would trigger the Python backend via a Server Action or API
   };
 
   const handlePhotoUpload = () => {
+    // In a real app, this would use the camera. For now, a placeholder.
     const newPhoto = `https://picsum.photos/seed/${Math.random()}/600/400`;
     setPhotos([...photos, newPhoto]);
-    toast({ title: "Photo Uploaded", description: "Job evidence saved to cloud storage." });
+    toast({ title: "Photo Uploaded", description: "Job evidence saved for AI verification." });
   };
 
   const handleSummarize = async () => {
     if (!rawNotes) return;
     setLoadingAI(true);
     try {
-      const result = await generateWorkSummary({ rawNotes });
+      // Use the last photo as site evidence for multimodal AI labeling
+      const evidencePhotoUri = photos.length > 0 ? photos[photos.length - 1] : undefined;
+      const result = await generateWorkSummary({ rawNotes, evidencePhotoUri });
       setSummary(result.summary);
-      toast({ title: "Summary Generated", description: "AI has polished your technician notes." });
+      setVerification(result.verificationLabel);
+      toast({ title: "Summary Generated", description: `AI Verified: ${result.verificationLabel}` });
     } catch (e) {
       toast({ variant: "destructive", title: "AI Error", description: "Could not generate summary." });
     } finally {
@@ -84,7 +87,6 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
       </header>
 
       <div className="p-4 space-y-6">
-        {/* Customer Details */}
         <Card className="rounded-2xl border-none shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-md flex items-center gap-2 text-primary">
@@ -92,16 +94,13 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xl font-extrabold">{customer.name}</p>
-                <div className="flex items-center gap-1 text-muted-foreground mt-1">
-                  <MapPin className="w-4 h-4" />
-                  <span className="text-sm font-medium">{customer.address}</span>
-                </div>
+            <div>
+              <p className="text-xl font-extrabold">{customer.name}</p>
+              <div className="flex items-center gap-1 text-muted-foreground mt-1">
+                <MapPin className="w-4 h-4" />
+                <span className="text-sm font-medium">{customer.address}</span>
               </div>
             </div>
-            
             <div className="grid grid-cols-2 gap-3">
               <Button asChild className="btn-massive bg-accent hover:bg-accent/90">
                 <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(customer.address)}`} target="_blank">
@@ -117,7 +116,6 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
           </CardContent>
         </Card>
 
-        {/* Job Scope */}
         <Card className="rounded-2xl border-none shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-md flex items-center gap-2 text-primary">
@@ -131,9 +129,8 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
           </CardContent>
         </Card>
 
-        {/* Action Panel */}
         <div className="space-y-4">
-          <h3 className="font-bold text-lg px-1">Job Execution</h3>
+          <h3 className="font-bold text-lg px-1 text-primary">Job Execution</h3>
           
           <div className="grid grid-cols-1 gap-4">
             <Button 
@@ -141,11 +138,11 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
               className="btn-massive border-2 border-primary text-primary h-32 text-xl"
               onClick={handlePhotoUpload}
             >
-              <Camera className="w-10 h-10 mb-2" /> Add Site Photo
+              <Camera className="w-10 h-10 mb-2" /> Add Site Evidence
             </Button>
 
             {photos.length > 0 && (
-              <div className="grid grid-cols-3 gap-2 py-2">
+              <div className="grid grid-cols-3 gap-2 py-2 px-1">
                 {photos.map((p, i) => (
                   <img key={i} src={p} alt="Job evidence" className="w-full aspect-square object-cover rounded-xl border-2 border-white shadow-sm" />
                 ))}
@@ -155,7 +152,7 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
             <Card className="rounded-2xl border-none shadow-sm p-4">
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-sm font-bold text-primary">Work Performed Notes</label>
+                  <label className="text-sm font-bold text-primary">Field Notes</label>
                   <Button 
                     variant="ghost" 
                     size="sm" 
@@ -163,18 +160,21 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
                     onClick={handleSummarize}
                     disabled={loadingAI || !rawNotes}
                   >
-                    <Wand2 className="w-3 h-3" /> {loadingAI ? "Thinking..." : "AI Summarize"}
+                    <Wand2 className="w-3 h-3" /> {loadingAI ? "Verifying..." : "AI Summarize"}
                   </Button>
                 </div>
                 <Textarea 
-                  placeholder="What did you do today?" 
-                  className="bg-secondary/20 border-none min-h-[80px] rounded-xl text-lg"
+                  placeholder="Notes for the summary/invoice..." 
+                  className="bg-secondary/20 border-none min-h-[80px] rounded-xl text-lg p-4"
                   value={rawNotes}
                   onChange={(e) => setRawNotes(e.target.value)}
                 />
                 {summary && (
                   <div className="bg-accent/5 p-4 rounded-xl border border-accent/20">
-                    <p className="text-xs font-bold text-accent uppercase tracking-wider mb-2">Final Summary</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-xs font-bold text-accent uppercase tracking-wider">Work Summary</p>
+                      {verification && <Badge variant="outline" className="text-[10px] bg-white">{verification}</Badge>}
+                    </div>
                     <p className="text-sm italic text-foreground">{summary}</p>
                   </div>
                 )}
@@ -182,36 +182,16 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
             </Card>
 
             <Button 
-              className={`btn-massive h-32 text-2xl ${completed ? 'bg-green-600' : 'bg-primary'}`}
+              className={`btn-massive h-32 text-2xl ${completed ? 'bg-green-600' : 'bg-primary shadow-xl shadow-primary/20'}`}
               onClick={handleComplete}
               disabled={completed}
             >
               <CheckCircle2 className="w-12 h-12 mb-2" /> 
-              {completed ? "Job Finished" : "Mark Complete"}
+              {completed ? "Invoice Ready" : "Mark Complete"}
             </Button>
           </div>
         </div>
       </div>
     </div>
-  );
-}
-
-function User(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
   );
 }

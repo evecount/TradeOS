@@ -19,21 +19,29 @@ Isolation is handled at the `ServiceBusiness` level.
 - Security is enforced via Firestore Rules using **Authorization Independence**.
 
 ## 🧠 The "Hive Intelligence" Vision (The 5 Vs)
-TradeOS isn't just an app; it's a **Hive of Trades**. Because every tenant's data follows the exact same variables indexed in `backend.json`, the platform leverages the 5 Vs to provide a competitive advantage to small businesses:
+TradeOS leverages the collective operational data of thousands of tenants to provide competitive advantages via the 5 Vs:
 
-1. **Volume:** Aggregating job data across thousands of shops to identify macro-trends (e.g., HVAC failure rates during specific weather patterns).
-2. **Velocity:** Measuring the speed of service delivery (generation rate) to benchmark efficiency and predict completion times.
-3. **Variety:** Standardizing diverse trades (plumbing, auto repair, electrical) as values within a unified schema, allowing for cross-industry pattern recognition.
-4. **Veracity:** Using AI to correlate site evidence (photos) with work summaries, ensuring the accuracy and trustworthiness of field data.
-5. **Value:** Turning raw operational data into actionable insights—identifying high-margin services and recommending growth paths for tenants.
+1. **Volume:** Aggregating job types to identify macro-trends (e.g., failure rates).
+2. **Velocity:** Measuring service delivery speed to predict job completion times.
+3. **Variety:** Standardizing diverse trades into a unified schema for pattern recognition.
+4. **Veracity:** Using multimodal AI agents to label and verify site evidence (photos/video) against work summaries.
+5. **Value:** Turning operational data into actionable growth paths for small businesses.
 
-## 🤖 Guidance for Agents (Token Efficiency)
+## 🤖 Active Agents & Orchestration
 
-1. **Schema-First:** Always consult `docs/backend.json` first. Do not guess field names.
-2. **Predictable Variables:** Use standardized naming (e.g., `serviceBusinessId`, `technicianId`). This allows the Hive to index your work.
+1. **The Dispatcher Agent (Messy Data Handler):**
+   - **File:** `src/ai/flows/generate-job-description.ts`
+   - **Role:** Takes unstructured customer notes and expands them into professional technical job descriptions.
+   - **Target:** Optimizes "Velocity" for the office.
+
+2. **The Veracity Agent (Multimodal Labeler):**
+   - **File:** `src/ai/flows/generate-work-summary.ts`
+   - **Role:** Correlates technician field notes with site evidence (photos) to create verified summaries for invoicing.
+   - **Target:** Ensures "Veracity" and "Value" for the customer.
+
+## 🛠 Guidance for Agents (Token Efficiency)
+
+1. **Schema-First:** Always consult `docs/backend.json` first.
+2. **Predictable Variables:** Use standardized naming (`serviceBusinessId`, `technicianId`).
 3. **Frugal Generation:** Use existing ShadCN components and non-blocking Firebase utilities.
-
-## 🛠 Active Features
-- [x] AI-powered Job Description expansion (Dispatcher).
-- [x] AI-generated Work Summaries for invoicing (Technician).
-- [x] Multi-tenant data scoping and Hive-ready indexing.
+4. **Multimodal Awareness:** When building field tools, assume AI can process both text and media to verify work.
