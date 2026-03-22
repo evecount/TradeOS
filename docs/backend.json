@@ -1,0 +1,500 @@
+{
+  "entities": {
+    "ServiceBusiness": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ServiceBusiness",
+      "type": "object",
+      "description": "Represents a white-label field service management business (tenant) using the TradeOS platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ServiceBusiness entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The official name of the service business."
+        },
+        "contactEmail": {
+          "type": "string",
+          "description": "The primary contact email address for the business.",
+          "format": "email"
+        },
+        "contactPhone": {
+          "type": "string",
+          "description": "The primary contact phone number for the business."
+        },
+        "address": {
+          "type": "string",
+          "description": "The physical address of the service business."
+        },
+        "logoUrl": {
+          "type": "string",
+          "description": "URL to the business's logo, used for white-labeling purposes.",
+          "format": "uri"
+        },
+        "stripeAccountId": {
+          "type": "string",
+          "description": "The connected Stripe account ID for this business, used for processing customer payments."
+        },
+        "invoiceTemplatePreferences": {
+          "type": "string",
+          "description": "A JSON string or reference to a template detailing the business's preferences for invoice generation (e.g., logo placement, terms and conditions)."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "contactEmail",
+        "contactPhone",
+        "address",
+        "stripeAccountId"
+      ]
+    },
+    "Customer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Customer",
+      "type": "object",
+      "description": "Represents a customer of a specific service business.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Customer entity."
+        },
+        "serviceBusinessId": {
+          "type": "string",
+          "description": "Reference to the ServiceBusiness this customer belongs to. (Relationship: ServiceBusiness 1:N Customer)"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The customer's first name."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The customer's last name."
+        },
+        "email": {
+          "type": "string",
+          "description": "The customer's email address for communication and invoicing.",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "The customer's primary phone number for communication (e.g., SMS for payment links)."
+        },
+        "serviceAddress": {
+          "type": "string",
+          "description": "The primary service address for the customer."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Any specific notes or preferences regarding this customer."
+        }
+      },
+      "required": [
+        "id",
+        "serviceBusinessId",
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "serviceAddress"
+      ]
+    },
+    "Technician": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Technician",
+      "type": "object",
+      "description": "Represents a field technician employed by a service business.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Technician entity."
+        },
+        "serviceBusinessId": {
+          "type": "string",
+          "description": "Reference to the ServiceBusiness this technician is employed by. (Relationship: ServiceBusiness 1:N Technician)"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The technician's first name."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The technician's last name."
+        },
+        "email": {
+          "type": "string",
+          "description": "The technician's email address, used for login and internal communication.",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "The technician's primary phone number for communication."
+        },
+        "isDispatcher": {
+          "type": "boolean",
+          "description": "Indicates if this technician also has dispatcher privileges."
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Indicates if the technician account is currently active."
+        }
+      },
+      "required": [
+        "id",
+        "serviceBusinessId",
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "isActive"
+      ]
+    },
+    "Job": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Job",
+      "type": "object",
+      "description": "Represents a specific service job to be performed by a technician for a customer.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Job entity."
+        },
+        "serviceBusinessId": {
+          "type": "string",
+          "description": "Reference to the ServiceBusiness this job belongs to. (Relationship: ServiceBusiness 1:N Job)"
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Reference to the Customer for whom this job is scheduled. (Relationship: Customer 1:N Job)"
+        },
+        "technicianId": {
+          "type": "string",
+          "description": "Reference to the Technician assigned to perform this job. (Relationship: Technician 1:N Job)"
+        },
+        "title": {
+          "type": "string",
+          "description": "A concise title or summary of the job."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the work required or issue to be addressed."
+        },
+        "scheduledStartDateTime": {
+          "type": "string",
+          "description": "The scheduled start date and time for the job.",
+          "format": "date-time"
+        },
+        "scheduledEndDateTime": {
+          "type": "string",
+          "description": "The scheduled end date and time for the job.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the job (e.g., 'Scheduled', 'InProgress', 'Complete', 'Canceled', 'PendingInvoice')."
+        },
+        "serviceAddress": {
+          "type": "string",
+          "description": "The full address where the service is to be performed."
+        },
+        "completionNotes": {
+          "type": "string",
+          "description": "Notes provided by the technician upon job completion."
+        },
+        "aiGeneratedSummary": {
+          "type": "string",
+          "description": "An AI-generated concise summary of work performed, based on technician's raw notes, for invoicing and customer communication."
+        },
+        "completedDateTime": {
+          "type": "string",
+          "description": "The actual date and time the job was marked complete by the technician.",
+          "format": "date-time"
+        },
+        "estimatedCost": {
+          "type": "number",
+          "description": "The estimated cost of the job before completion."
+        },
+        "actualCost": {
+          "type": "number",
+          "description": "The actual cost incurred for the job, used for invoicing."
+        }
+      },
+      "required": [
+        "id",
+        "serviceBusinessId",
+        "customerId",
+        "technicianId",
+        "title",
+        "description",
+        "scheduledStartDateTime",
+        "status",
+        "serviceAddress"
+      ]
+    },
+    "JobPhoto": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "JobPhoto",
+      "type": "object",
+      "description": "Represents a photo uploaded by a technician related to a specific job.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the JobPhoto entity."
+        },
+        "jobId": {
+          "type": "string",
+          "description": "Reference to the Job this photo is associated with. (Relationship: Job 1:N JobPhoto)"
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL where the photo is stored (e.g., Firebase Storage).",
+          "format": "uri"
+        },
+        "uploadedDateTime": {
+          "type": "string",
+          "description": "The date and time when the photo was uploaded.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "An optional description or caption for the photo."
+        }
+      },
+      "required": [
+        "id",
+        "jobId",
+        "url",
+        "uploadedDateTime"
+      ]
+    },
+    "Invoice": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Invoice",
+      "type": "object",
+      "description": "Represents an invoice generated for a completed job.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Invoice entity."
+        },
+        "serviceBusinessId": {
+          "type": "string",
+          "description": "Reference to the ServiceBusiness that issued this invoice. (Relationship: ServiceBusiness 1:N Invoice)"
+        },
+        "jobId": {
+          "type": "string",
+          "description": "Reference to the Job for which this invoice was generated. (Relationship: Job 1:N Invoice)"
+        },
+        "invoiceNumber": {
+          "type": "string",
+          "description": "A unique, human-readable identifier for the invoice."
+        },
+        "issueDateTime": {
+          "type": "string",
+          "description": "The date and time the invoice was issued.",
+          "format": "date-time"
+        },
+        "dueDateTime": {
+          "type": "string",
+          "description": "The date and time the invoice payment is due.",
+          "format": "date-time"
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "The total amount due on the invoice."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current payment status of the invoice (e.g., 'Issued', 'Paid', 'PartiallyPaid', 'Overdue', 'Canceled')."
+        },
+        "paymentLink": {
+          "type": "string",
+          "description": "A secure URL provided by the payment gateway (Stripe) for the customer to pay the invoice.",
+          "format": "uri"
+        },
+        "paidDateTime": {
+          "type": "string",
+          "description": "The date and time when the invoice was fully paid.",
+          "format": "date-time"
+        },
+        "customerEmailAtIssue": {
+          "type": "string",
+          "description": "The customer's email address at the time the invoice was issued.",
+          "format": "email"
+        },
+        "customerPhoneAtIssue": {
+          "type": "string",
+          "description": "The customer's phone number at the time the invoice was issued."
+        },
+        "lineItems": {
+          "type": "array",
+          "description": "An array of line items detailing services or products on the invoice.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "serviceBusinessId",
+        "jobId",
+        "invoiceNumber",
+        "issueDateTime",
+        "totalAmount",
+        "status",
+        "paymentLink",
+        "customerEmailAtIssue",
+        "customerPhoneAtIssue",
+        "lineItems"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/platform_admins/{userId}",
+        "definition": {
+          "entityName": "PlatformAdmin",
+          "schema": {
+            "$ref": "#/backend/entities/PlatformAdmin"
+          },
+          "description": "Top-level collection for platform administrators. Each document's ID corresponds to a Firebase Authentication User ID (uid) and its existence grants platform-wide administrative privileges. This is used for DBAC (Database Access Control) with 'existence over content' for platform-level roles.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Authentication User ID (uid) of a platform administrator."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/service_businesses/{serviceBusinessId}",
+        "definition": {
+          "entityName": "ServiceBusiness",
+          "schema": {
+            "$ref": "#/backend/entities/ServiceBusiness"
+          },
+          "description": "The root collection for each multi-tenant service business. Each document represents a unique tenant in the TradeOS platform. Access is typically restricted to platform admins or dispatchers/owners within the specific business, determined by their role in the /service_businesses/{serviceBusinessId}/technicians subcollection. No denormalization for authorization is needed within this root document itself, as its ID defines the tenant boundary.",
+          "params": [
+            {
+              "name": "serviceBusinessId",
+              "description": "The unique identifier for a ServiceBusiness (tenant)."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/service_businesses/{serviceBusinessId}/customers/{customerId}",
+        "definition": {
+          "entityName": "Customer",
+          "schema": {
+            "$ref": "#/backend/entities/Customer"
+          },
+          "description": "Subcollection containing customers associated with a specific ServiceBusiness. Each document includes the 'serviceBusinessId' for authorization independence, enabling rules to directly verify tenant ownership without 'get()' calls to the parent ServiceBusiness document. Access is primarily for dispatchers and authorized technicians of the parent ServiceBusiness.",
+          "params": [
+            {
+              "name": "serviceBusinessId",
+              "description": "The unique identifier for the parent ServiceBusiness."
+            },
+            {
+              "name": "customerId",
+              "description": "The unique identifier for a Customer."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/service_businesses/{serviceBusinessId}/technicians/{technicianId}",
+        "definition": {
+          "entityName": "Technician",
+          "schema": {
+            "$ref": "#/backend/entities/Technician"
+          },
+          "description": "Subcollection containing technicians employed by a specific ServiceBusiness. Each document's ID is expected to be the Firebase Authentication User ID (uid) of the technician for direct mapping. It includes 'serviceBusinessId' for authorization independence and 'isDispatcher' for role-based access within the tenant. Technicians can read their own profile, while dispatchers manage all technicians within their business.",
+          "params": [
+            {
+              "name": "serviceBusinessId",
+              "description": "The unique identifier for the parent ServiceBusiness."
+            },
+            {
+              "name": "technicianId",
+              "description": "The unique identifier for a Technician, expected to be the Firebase Auth UID."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/service_businesses/{serviceBusinessId}/jobs/{jobId}",
+        "definition": {
+          "entityName": "Job",
+          "schema": {
+            "$ref": "#/backend/entities/Job"
+          },
+          "description": "Subcollection for service jobs scheduled by a ServiceBusiness. Each document explicitly contains 'serviceBusinessId' and 'technicianId' (the assigned technician's UID) for authorization independence. This enables technicians to query for and access only their assigned jobs, and dispatchers to manage all jobs within their business, without requiring 'get()' operations in security rules.",
+          "params": [
+            {
+              "name": "serviceBusinessId",
+              "description": "The unique identifier for the parent ServiceBusiness."
+            },
+            {
+              "name": "jobId",
+              "description": "The unique identifier for a Job."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/service_businesses/{serviceBusinessId}/jobs/{jobId}/photos/{photoId}",
+        "definition": {
+          "entityName": "JobPhoto",
+          "schema": {
+            "$ref": "#/backend/entities/JobPhoto"
+          },
+          "description": "Subcollection for photos related to a specific job. To ensure Authorization Independence, each JobPhoto document MUST include denormalized 'serviceBusinessId' (from the parent ServiceBusiness) and 'assignedTechnicianId' (from the parent Job). This allows security rules to verify tenant ownership and technician assignment directly from the photo document, avoiding 'get()' calls to parent Job or ServiceBusiness documents. The 'id' of the photo corresponds to its Firebase Storage path or a generated ID.",
+          "params": [
+            {
+              "name": "serviceBusinessId",
+              "description": "The unique identifier for the parent ServiceBusiness."
+            },
+            {
+              "name": "jobId",
+              "description": "The unique identifier for the parent Job."
+            },
+            {
+              "name": "photoId",
+              "description": "The unique identifier for a JobPhoto."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/service_businesses/{serviceBusinessId}/invoices/{invoiceId}",
+        "definition": {
+          "entityName": "Invoice",
+          "schema": {
+            "$ref": "#/backend/entities/Invoice"
+          },
+          "description": "Subcollection for invoices generated by a ServiceBusiness for completed jobs. Each document includes 'serviceBusinessId' for authorization independence, allowing dispatchers to manage all invoices within their business. The backend typically handles creation, while dispatchers monitor and update payment statuses.",
+          "params": [
+            {
+              "name": "serviceBusinessId",
+              "description": "The unique identifier for the parent ServiceBusiness."
+            },
+            {
+              "name": "invoiceId",
+              "description": "The unique identifier for an Invoice."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed for a multi-tenant application, with each 'ServiceBusiness' acting as a top-level tenant. This ensures strong data isolation between different businesses. The core principle of Authorization Independence is achieved primarily through pervasive denormalization of `serviceBusinessId` and other relevant authorization context fields (like `technicianId`) into every document within subcollections. This allows Firestore security rules to evaluate access permissions based solely on the `request.auth.uid` and the `resource.data` of the document being accessed, eliminating the need for expensive and potentially problematic `get()` calls to parent documents within subcollection rules. \n\n**Authorization Independence:**\n*   **`ServiceBusiness` documents:** These are the root of each tenant. Access to modify a `ServiceBusiness` profile itself will be controlled by validating the user's role (e.g., a dispatcher/owner) within the `service_businesses/{serviceBusinessId}/technicians/{request.auth.uid}` document. While this involves a `get()` call, it is strategically placed at the tenant boundary for administrative actions, not for routine data access within subcollections. Platform-level administrators, if implemented, would also have direct access.\n*   **Subcollections (`customers`, `technicians`, `jobs`, `invoices`):** Each document in these collections explicitly contains the `serviceBusinessId` field. This allows rules to verify `resource.data.serviceBusinessId == request.auth.uid_resolved_serviceBusinessId` directly, without needing to inspect parent documents. For example, a technician's `technicianId` is assumed to be their `request.auth.uid`, and this ID, along with `serviceBusinessId`, is denormalized into `Job` documents. This allows for direct checks like `resource.data.technicianId == request.auth.uid` for technician-specific job access.\n*   **`JobPhoto` subcollection (CRITICAL DENORMALIZATION):** To maintain Authorization Independence for `JobPhoto` documents, both `serviceBusinessId` (from the parent service business) and `assignedTechnicianId` (from the parent job's assigned technician) **must be denormalized** into each `JobPhoto` document. This enables robust security rules to ensure that only the assigned technician (or a dispatcher from the correct service business) can manage or view photos, without traversing back up the `job` or `service_business` hierarchy.\n\n**QAPs (Queries as Authorization Policies):**\n*   **Technician's Daily Job List:** Technicians can securely query their assigned jobs using `db.collection('service_businesses/{serviceBusinessId}/jobs').where('technicianId', '==', request.auth.uid).where('scheduledStartDateTime', '>=', today).get()`. The security rules will enforce that only documents where `resource.data.technicianId == request.auth.uid` are returned, and crucially, that the `serviceBusinessId` in the path matches the `serviceBusinessId` derived from the technician's own profile (`/service_businesses/{theirServiceBusinessId}/technicians/{request.auth.uid}`). This ensures that `list` operations are both efficient and secure.\n*   **Dispatcher's Dashboard:** Dispatchers can query all `customers`, `technicians`, `jobs`, and `invoices` within their specific `serviceBusinessId` by verifying their `isDispatcher: true` role in their `technician` document within that business's hierarchy. This allows `list` operations to return all relevant data for their business, respecting tenant isolation and role-based access. \n\n**Structural Segregation and Access Modeling:**\n*   Each subcollection (`customers`, `technicians`, `jobs`, `invoices`) maintains a homogeneous security posture, meaning all documents within that collection share similar access rules. For example, all `Customer` documents under a given `serviceBusinessId` are accessible by dispatchers of that business.\n*   Path-based ownership is used for user-specific data (e.g., a technician's own profile implicitly via `request.auth.uid` matching the document ID in `/technicians/{technicianId}`). Hierarchical paths are consistently used for `1:N` relationships, forming a clear logical structure (e.g., `ServiceBusiness -> Job -> JobPhoto`).\n*   Role-based access is managed by storing `isDispatcher` status directly within the `Technician` entity, which serves as the \"membership map\" for users within a business. The `Technician.id` field is explicitly designed to map directly to `request.auth.uid` for streamlined access control.\n*   A dedicated `platform_admins` collection provides a simple, existence-based check for platform-level administrative privileges, allowing platform management without complex cross-tenant lookups."
+  }
+}

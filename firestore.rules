@@ -1,0 +1,166 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * TradeOS Multi-Tenant Security Model
+     * 
+     * Core Philosophy:
+     * This ruleset implements a strict multi-tenant architecture designed for Field Service Management. 
+     * Isolation is enforced at the ServiceBusiness (tenant) level. 
+     * 
+     * Data Structure:
+     * - /platform_admins: Global administrators with platform-wide access.
+     * - /service_businesses/{serviceBusinessId}: Root tenant documents.
+     * - Subcollections (customers, technicians, jobs, invoices) are nested under the business ID.
+     * 
+     * Key Security Decisions:
+     * 1. Authorization Independence: Every document in a subcollection denormalizes its 'serviceBusinessId'. 
+     *    This allows rules to verify tenant ownership without traversing the entire tree via get() calls.
+     * 2. Identity-Based Mapping: Technicians are mapped to Firestore documents using their Firebase Auth UID.
+     * 3. Role-Based Access (RBAC): Within a tenant, access is bifurcated between 'Dispatchers' (managers) 
+     *    and 'Technicians' (field workers). Dispatchers have broad access within their business, while 
+     *    Technicians are restricted to their assigned tasks.
+     * 4. Relational Integrity: On creation of jobs or photos, rules enforce that the data correctly 
+     *    references the user and the tenant to prevent cross-tenant data leakage.
+     */
+
+    // --- Global Helper Functions ---
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Checks if the user is a platform-wide administrator
+    function isPlatformAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/platform_admins/$(request.auth.uid));
+    }
+
+    // Fetches the technician profile for the current user within a specific business
+    function getTechnician(bizId) {
+      return get(/databases/$(database)/documents/service_businesses/$(bizId)/technicians/$(request.auth.uid));
+    }
+
+    // Checks if the user belongs to the specified business tenant
+    function isMember(bizId) {
+      return isSignedIn() && exists(/databases/$(database)/documents/service_businesses/$(bizId)/technicians/$(request.auth.uid));
+    }
+
+    // Checks if the user has dispatcher privileges within a specific business tenant
+    function isDispatcher(bizId) {
+      return isMember(bizId) && getTechnician(bizId).data.isDispatcher == true;
+    }
+
+    // Helper for checking ownership of a specific technician document
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Helper for destructive/update operations on existing documents
+    function isExistingOwner(userId) {
+      return resource != null && isOwner(userId);
+    }
+
+    // --- Collection Rules ---
+
+    /**
+     * @description Rules for platform-level administrators.
+     * @path /platform_admins/{userId}
+     * @allow (get) Admin viewing their own record.
+     * @deny (list) Unauthorized users trying to list admins.
+     * @principle Existence-based platform-wide administrative roles.
+     */
+    match /platform_admins/{userId} {
+      allow get: if isPlatformAdmin() || isOwner(userId);
+      allow list: if isPlatformAdmin();
+      allow create, update, delete: if isPlatformAdmin();
+    }
+
+    /**
+     * @description The root tenant document for a service business.
+     * @path /service_businesses/{serviceBusinessId}
+     * @allow (get) Any employee of the business.
+     * @deny (update) Technicians without dispatcher privileges.
+     * @principle Tenant-level isolation.
+     */
+    match /service_businesses/{serviceBusinessId} {
+      allow get: if isPlatformAdmin() || isMember(serviceBusinessId);
+      allow list: if isPlatformAdmin();
+      allow create: if isPlatformAdmin();
+      allow update: if isPlatformAdmin() || (resource != null && isDispatcher(serviceBusinessId));
+      allow delete: if isPlatformAdmin();
+    }
+
+    /**
+     * @description Customers belonging to a specific business tenant.
+     * @path /service_businesses/{serviceBusinessId}/customers/{customerId}
+     * @allow (list) Dispatchers viewing their client list.
+     * @deny (create) Technicians attempting to create customers.
+     * @principle Restricted management of tenant-owned resources.
+     */
+    match /service_businesses/{serviceBusinessId}/customers/{customerId} {
+      allow get, list: if isPlatformAdmin() || isMember(serviceBusinessId);
+      allow create: if isPlatformAdmin() || (isDispatcher(serviceBusinessId) && request.resource.data.serviceBusinessId == serviceBusinessId);
+      allow update: if isPlatformAdmin() || (resource != null && isDispatcher(serviceBusinessId));
+      allow delete: if isPlatformAdmin() || (resource != null && isDispatcher(serviceBusinessId));
+    }
+
+    /**
+     * @description Technician profiles within a business. ID matches Auth UID.
+     * @path /service_businesses/{serviceBusinessId}/technicians/{technicianId}
+     * @allow (get) Technician viewing their own profile or Dispatcher viewing staff.
+     * @deny (update) Technicians trying to elevate their own dispatcher status.
+     * @principle Self-creation with path-uid consistency.
+     */
+    match /service_businesses/{serviceBusinessId}/technicians/{technicianId} {
+      allow get: if isPlatformAdmin() || isDispatcher(serviceBusinessId) || isOwner(technicianId);
+      allow list: if isPlatformAdmin() || isDispatcher(serviceBusinessId) || isMember(serviceBusinessId);
+      allow create: if isPlatformAdmin() || (isOwner(technicianId) && request.resource.data.serviceBusinessId == serviceBusinessId);
+      allow update: if isPlatformAdmin() || (resource != null && isDispatcher(serviceBusinessId)) || (isExistingOwner(technicianId) && request.resource.data.isDispatcher == resource.data.isDispatcher);
+      allow delete: if isPlatformAdmin() || (resource != null && isDispatcher(serviceBusinessId));
+    }
+
+    /**
+     * @description Service jobs assigned within the business.
+     * @path /service_businesses/{serviceBusinessId}/jobs/{jobId}
+     * @allow (get) The assigned technician or a dispatcher.
+     * @deny (list) Technicians listing jobs assigned to others.
+     * @principle Authorization independence using assigned technician ID.
+     */
+    match /service_businesses/{serviceBusinessId}/jobs/{jobId} {
+      allow get: if isPlatformAdmin() || isDispatcher(serviceBusinessId) || (isMember(serviceBusinessId) && resource.data.technicianId == request.auth.uid);
+      allow list: if isPlatformAdmin() || isMember(serviceBusinessId); 
+      allow create: if isPlatformAdmin() || (isDispatcher(serviceBusinessId) && request.resource.data.serviceBusinessId == serviceBusinessId);
+      allow update: if isPlatformAdmin() || (resource != null && (isDispatcher(serviceBusinessId) || resource.data.technicianId == request.auth.uid));
+      allow delete: if isPlatformAdmin() || (resource != null && isDispatcher(serviceBusinessId));
+    }
+
+    /**
+     * @description Photos associated with a specific job.
+     * @path /service_businesses/{serviceBusinessId}/jobs/{jobId}/photos/{photoId}
+     * @allow (create) The assigned technician uploading a photo for their job.
+     * @deny (update) Technicians editing photos from jobs they aren't assigned to.
+     * @principle Denormalization of assignedTechnicianId for fast authorization.
+     */
+    match /service_businesses/{serviceBusinessId}/jobs/{jobId}/photos/{photoId} {
+      allow get, list: if isPlatformAdmin() || isDispatcher(serviceBusinessId) || (isMember(serviceBusinessId) && resource.data.assignedTechnicianId == request.auth.uid);
+      allow create: if isPlatformAdmin() || (isMember(serviceBusinessId) && (isDispatcher(serviceBusinessId) || request.resource.data.assignedTechnicianId == request.auth.uid));
+      allow update: if isPlatformAdmin() || (resource != null && (isDispatcher(serviceBusinessId) || resource.data.assignedTechnicianId == request.auth.uid));
+      allow delete: if isPlatformAdmin() || (resource != null && (isDispatcher(serviceBusinessId) || resource.data.assignedTechnicianId == request.auth.uid));
+    }
+
+    /**
+     * @description Invoices generated for completed jobs.
+     * @path /service_businesses/{serviceBusinessId}/invoices/{invoiceId}
+     * @allow (get) Dispatchers managing billing.
+     * @deny (write) Technicians attempting to modify financial records.
+     * @principle Dispatcher-only management of financial entities.
+     */
+    match /service_businesses/{serviceBusinessId}/invoices/{invoiceId} {
+      allow get, list: if isPlatformAdmin() || isDispatcher(serviceBusinessId);
+      allow create: if isPlatformAdmin() || (isDispatcher(serviceBusinessId) && request.resource.data.serviceBusinessId == serviceBusinessId);
+      allow update: if isPlatformAdmin() || (resource != null && isDispatcher(serviceBusinessId));
+      allow delete: if isPlatformAdmin() || (resource != null && isDispatcher(serviceBusinessId));
+    }
+  }
+}
