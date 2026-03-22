@@ -34,10 +34,10 @@ export default function TradeOSHome() {
           </div>
           <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight font-headline leading-[1.05]">
             Focus on the Fix. <br />
-            <span className="text-primary">Your Buddy Handles the Rest.</span>
+            <span className="text-primary">No more paperwork after hours.</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Stop the follow-ups at the end of a long day. TradeOS is the AI buddy that intakes clients from WhatsApp, schedules your crew, and bills site work automatically.
+            Stop the follow-ups at the end of a long day. TradeOS is the AI buddy that intakes clients from WhatsApp, manages your schedule without double-booking, and bills site work automatically.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
             <ShadButton size="lg" className="h-14 px-10 text-lg font-bold shadow-xl" asChild>
@@ -61,14 +61,14 @@ export default function TradeOSHome() {
                 <MessageSquareText className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold font-headline">Automated Intake</h3>
-              <p className="text-muted-foreground">Your Buddy can intake requests directly from WhatsApp or Telegram, expanding messy notes into clean job tickets instantly.</p>
+              <p className="text-muted-foreground">Your Buddy talks to clients on WhatsApp and Telegram, booking jobs instantly without ever double-booking your crew.</p>
             </div>
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
               <div className="bg-accent/10 w-12 h-12 rounded-2xl flex items-center justify-center text-accent">
-                <UserPlus className="w-6 h-6" />
+                <BellRing className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-headline">Team Growth Engine</h3>
-              <p className="text-muted-foreground">Scale your business without the overhead. The AI handles dispatching and crew reminders while you focus on high-value work.</p>
+              <h3 className="text-xl font-bold font-headline">Proactive Comms</h3>
+              <p className="text-muted-foreground">Buddy warns clients if a job is running late. It keeps the customer happy while you stay focused on the fix.</p>
             </div>
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
               <div className="bg-green-500/10 w-12 h-12 rounded-2xl flex items-center justify-center text-green-600">
@@ -95,10 +95,10 @@ export default function TradeOSHome() {
                     <MessageSquareText className="w-5 h-5 text-primary" /> WhatsApp & Telegram Intake
                   </li>
                   <li className="flex items-center gap-3">
-                    <CalendarCheck2 className="w-5 h-5 text-primary" /> AI Route Optimization
+                    <CalendarCheck2 className="w-5 h-5 text-primary" /> No-Conflict Scheduling
                   </li>
                   <li className="flex items-center gap-3">
-                    <FileText className="w-5 h-5 text-primary" /> Instant Quote Generation
+                    <FileText className="w-5 h-5 text-primary" /> AI-Generated Estimates
                   </li>
                 </ul>
                 <ShadButton asChild className="w-full h-14 rounded-2xl text-lg font-bold">
@@ -122,7 +122,7 @@ export default function TradeOSHome() {
                     <Zap className="w-5 h-5 text-accent" /> No-Tap Job Summaries
                   </li>
                   <li className="flex items-center gap-3">
-                    <Banknote className="w-5 h-5 text-accent" /> On-Site Instant Payments
+                    <Banknote className="w-5 h-5 text-accent" /> Proactive Client Alerts
                   </li>
                 </ul>
                 <ShadButton asChild className="w-full h-14 rounded-2xl text-lg font-bold bg-accent hover:bg-accent/90">

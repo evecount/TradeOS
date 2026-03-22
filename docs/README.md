@@ -36,7 +36,10 @@ TradeOS is a **multi-tenant** Field Service Management (FSM) platform centered a
 
 3. **The Buddy Agent (Proactive Automation):**
    - **Trigger:** Job status changes (e.g., 'En Route', 'In Progress').
-   - **Action:** Sends client notifications, prepares invoice drafts, and manages the technician's dashboard.
+   - **Action:** 
+     - **Scheduling:** Books appointments by checking technician availability (preventing double-bookings).
+     - **Client Comms:** Notifies clients of arrival times and proactively warns of delays if a job gets complex.
+     - **Post-Job:** Prepares invoice drafts and payment links immediately upon AI-verified completion.
    - **Persona:** A supportive companion that handles the "paperwork" so the technician can focus on the trade.
 
 ## 🛠 Guidance for Agents

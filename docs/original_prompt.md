@@ -4,7 +4,7 @@
 TradeOS is the **"AI Buddy"** for field service professionals. It transforms from a static CRM into a proactive orchestration layer. The goal is to ensure a tradesperson never has to manually notify a client, write a summary, or chase an invoice again.
 
 ## The AI Buddy Persona
-- **Proactive:** It doesn't wait for input; it anticipates needs (reminders, notifications, part ordering).
+- **Proactive:** It doesn't wait for input; it anticipates needs (reminders, notifications, part ordering). It talks to clients so you don't have to.
 - **Veracious:** It audits work via site evidence to ensure the technician is protected and the client is satisfied.
 - **Frictionless:** It removes the administrative wall between "doing the job" and "getting paid."
 - **Supportive:** It "watches the back" of the tradesperson, handling the paperwork while they stay focused on the fix.
@@ -16,9 +16,9 @@ TradeOS is the **"AI Buddy"** for field service professionals. It transforms fro
 ## Core Requirements
 - **Multi-tenancy:** Isolated environments for every service business.
 - **Agentic Orchestration:**
-    - **Dispatcher Agent:** Handles messy data ingestion.
-    - **Veracity Agent:** Audits work via multimodal site evidence.
-    - **Buddy Agent:** Proactively manages client notifications and payment links.
+    - **Dispatcher Agent:** Handles messy data ingestion from WhatsApp (@MetaDev) and Telegram (@BotFather).
+    - **Veracity Agent:** Audits work via multimodal site evidence (photo/video).
+    - **Buddy Agent:** Proactively manages client notifications, prevent double-bookings, and warns clients of delays.
 - **Zero Friction Payments:** Integrated Stripe flows triggered by AI-verified job completion.
 
 ## Aesthetic

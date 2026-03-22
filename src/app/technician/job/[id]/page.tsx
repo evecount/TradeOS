@@ -33,7 +33,7 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
       return;
     }
     setCompleted(true);
-    setBuddyStatus("Invoice sent. You're clear for the next one.");
+    setBuddyStatus("Buddy: Client notified, invoice sent. You're clear.");
     toast({ 
       title: "Buddy Handled It", 
       description: "Client notified and invoiced. Great job today." 
@@ -43,14 +43,14 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
   const handlePhotoUpload = () => {
     const newPhoto = `https://picsum.photos/seed/${Math.random()}/600/400`;
     setPhotos([...photos, newPhoto]);
-    setBuddyStatus("Got the evidence. Checking the work...");
+    setBuddyStatus("Buddy: Evidence received. Auditing work veracity...");
     toast({ title: "Evidence Captured", description: "Buddy is verifying the fix now." });
   };
 
   const handleSummarize = async () => {
     if (!rawNotes) return;
     setLoadingAI(true);
-    setBuddyStatus("Auditing fix veracity...");
+    setBuddyStatus("Buddy: Analyzing site evidence and notes...");
     try {
       const evidencePhotoUri = photos.length > 0 ? photos[photos.length - 1] : undefined;
       const result = await generateWorkSummary({ rawNotes, evidencePhotoUri });
@@ -59,14 +59,14 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
       setIsVerified(result.isVerified);
       
       if (result.isVerified) {
-        setBuddyStatus("Fix verified. Tap to finalize.");
+        setBuddyStatus("Buddy: Fix verified. Tap 'Hand to Buddy' to finish.");
         toast({ title: "Buddy Verified Your Fix", description: `Confirmed: ${result.verificationLabel}` });
       } else {
-        setBuddyStatus("Buddy needs a clearer photo or more notes.");
+        setBuddyStatus("Buddy: Needs a clearer photo or more detail to confirm.");
         toast({ variant: "destructive", title: "Veracity Check", description: "Buddy couldn't quite confirm the fix. Check photo/notes." });
       }
     } catch (e) {
-      setBuddyStatus("Buddy encountered an error.");
+      setBuddyStatus("Buddy: Encountered an error during audit.");
       toast({ variant: "destructive", title: "AI Error", description: "Could not perform veracity check." });
     } finally {
       setLoadingAI(false);
@@ -90,7 +90,7 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
         <div className="flex flex-col items-end gap-1">
           <div className="flex items-center gap-1.5 px-3 py-1 bg-accent/10 rounded-full border border-accent/20">
             <Sparkles className="w-3 h-3 text-accent" />
-            <span className="text-[10px] font-bold text-accent uppercase tracking-tighter">AI Buddy Active</span>
+            <span className="text-[10px] font-bold text-accent uppercase tracking-tighter">Buddy Active</span>
           </div>
         </div>
       </header>
@@ -99,10 +99,10 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
       <div className="bg-primary/5 border-b px-4 py-2 flex items-center justify-between">
         <div className="flex items-center gap-2 text-primary">
           {loadingAI ? <Loader2 className="w-3 h-3 animate-spin" /> : <Bell className="w-3 h-3" />}
-          <span className="text-xs font-medium">{buddyStatus}</span>
+          <span className="text-xs font-bold italic">{buddyStatus}</span>
         </div>
         {!completed && !isVerified && !loadingAI && photos.length === 0 && (
-          <span className="text-[10px] text-muted-foreground animate-pulse">Waiting for site evidence...</span>
+          <span className="text-[10px] text-muted-foreground animate-pulse">Buddy is waiting for site evidence...</span>
         )}
       </div>
 
@@ -172,7 +172,7 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
                     onClick={handleSummarize}
                     disabled={loadingAI || !rawNotes}
                   >
-                    <Wand2 className="w-3 h-3" /> {loadingAI ? "Checking..." : "Buddy Audit"}
+                    <Wand2 className="w-3 h-3" /> {loadingAI ? "Auditing..." : "Buddy Audit"}
                   </Button>
                 </div>
                 <Textarea 
@@ -206,7 +206,7 @@ export default function TechnicianJobDetail({ params }: { params: Promise<{ id: 
               disabled={completed || !isVerified}
             >
               {completed ? <CheckCircle2 className="w-12 h-12 mb-2" /> : <HeartHandshake className="w-12 h-12 mb-2" />}
-              {completed ? "Done & Dusted" : isVerified ? "Hand to Buddy" : "Verify to Finish"}
+              {completed ? "Job Done" : isVerified ? "Hand to Buddy" : "Verify to Finish"}
             </Button>
           </div>
         </div>
