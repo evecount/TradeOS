@@ -1,10 +1,10 @@
 'use server';
 /**
- * @fileOverview A Genkit flow for generating detailed job descriptions from brief notes.
+ * @fileOverview The Dispatcher Agent: A Genkit flow for processing messy intake data.
  *
- * - generateJobDescription - A function that handles the job description generation process.
- * - GenerateJobDescriptionInput - The input type for the generateJobDescription function.
- * - GenerateJobDescriptionOutput - The return type for the generateJobDescription function.
+ * - generateJobDescription - Transforms messy shorthand or messaging app notes into professional job descriptions.
+ * - GenerateJobDescriptionInput - Shorthand notes (e.g. from WhatsApp/Telegram).
+ * - GenerateJobDescriptionOutput - Professional title and expanded description.
  */
 
 import {ai} from '@/ai/genkit';
@@ -14,7 +14,7 @@ const GenerateJobDescriptionInputSchema = z.object({
   briefNotes: z
     .string()
     .describe(
-      'Brief notes or a short summary of the customer issue or job request.'
+      'Messy notes, voice-to-text, or shorthand from a messaging app (WhatsApp/Telegram).'
     ),
 });
 export type GenerateJobDescriptionInput = z.infer<
@@ -22,11 +22,13 @@ export type GenerateJobDescriptionInput = z.infer<
 >;
 
 const GenerateJobDescriptionOutputSchema = z.object({
+  title: z.string().describe('A concise, professional title for the job.'),
   detailedDescription: z
     .string()
     .describe(
-      'A detailed, professional, and clear job description for a technician.'
+      'A detailed, professional job description expanded from the messy notes.'
     ),
+  suggestedTags: z.array(z.string()).describe('Technical tags for indexing (e.g. "pipe-burst", "circuit-board").'),
 });
 export type GenerateJobDescriptionOutput = z.infer<
   typeof GenerateJobDescriptionOutputSchema
@@ -42,13 +44,18 @@ const prompt = ai.definePrompt({
   name: 'generateJobDescriptionPrompt',
   input: {schema: GenerateJobDescriptionInputSchema},
   output: {schema: GenerateJobDescriptionOutputSchema},
-  prompt: `You are an AI assistant for a field service management platform called TradeOS. Your task is to expand brief customer notes or issues into clear, detailed, and professional job descriptions for technicians.
+  prompt: `You are the 'Dispatcher Agent' for TradeOS. Your job is to transform messy, unstructured incoming job requests into professional service tickets.
 
-Ensure the generated description provides comprehensive information that a technician would need to understand the problem and prepare for the job, without being excessively verbose.
+INPUT:
+Shifting, messy notes from WhatsApp, Telegram, or shorthand dispatch.
 
-Brief Customer Notes: {{{briefNotes}}}
+TASK:
+1. Create a professional Title (e.g. "Main Line Blockage Assessment").
+2. Expand the notes into a clear, Technical Description for the field technician.
+3. Identify relevant technical Tags for the Hive schema.
 
-Expanded Job Description:`,
+Input Shorthand:
+{{{briefNotes}}}`,
 });
 
 const generateJobDescriptionFlow = ai.defineFlow(

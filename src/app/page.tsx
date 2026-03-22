@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Wrench, LayoutDashboard, Truck, ShieldCheck, Zap, BellRing, CalendarCheck2, Banknote, MessageSquareText, FileText } from "lucide-react";
+import { Wrench, LayoutDashboard, Truck, ShieldCheck, Zap, BellRing, CalendarCheck2, Banknote, MessageSquareText, FileText, UserPlus } from "lucide-react";
 import { Button as ShadButton } from "@/components/ui/button";
 
 export default function TradeOSHome() {
@@ -20,7 +20,7 @@ export default function TradeOSHome() {
               <Link href="/dispatcher">Login</Link>
             </ShadButton>
             <ShadButton className="bg-primary hover:bg-primary/90">
-              Get Started
+              Launch My Hive
             </ShadButton>
           </div>
         </div>
@@ -33,49 +33,49 @@ export default function TradeOSHome() {
             <Zap className="w-4 h-4" /> Meet Your AI Business Buddy
           </div>
           <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight font-headline leading-[1.05]">
-            You Fix It. <br />
-            <span className="text-primary">Your Buddy Bills It.</span>
+            Focus on the Fix. <br />
+            <span className="text-primary">Your Buddy Handles the Rest.</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Stop the paperwork at the end of a long day. TradeOS is the AI buddy that handles your scheduling, texts your clients, and gets you paid while you're still on site.
+            Stop the follow-ups at the end of a long day. TradeOS is the AI buddy that intakes clients from WhatsApp, schedules your crew, and bills site work automatically.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
             <ShadButton size="lg" className="h-14 px-10 text-lg font-bold shadow-xl" asChild>
-              <Link href="/dispatcher">Open My Portal</Link>
+              <Link href="/dispatcher">Manage My Team</Link>
             </ShadButton>
             <ShadButton size="lg" variant="outline" className="h-14 px-10 text-lg font-bold" asChild>
-              <Link href="/technician">Try the Field App</Link>
+              <Link href="/technician">Open Field Buddy</Link>
             </ShadButton>
           </div>
         </section>
 
-        {/* The "Buddy" Feature Grid */}
+        {/* Feature Grid */}
         <section className="max-w-7xl mx-auto px-6 py-24 border-t border-b bg-secondary/10">
           <div className="text-center mb-16 space-y-4">
-            <h2 className="text-4xl font-bold font-headline">No More Paperwork</h2>
-            <p className="text-muted-foreground text-lg">Your AI buddy never sleeps, so you can actually enjoy your evening.</p>
+            <h2 className="text-4xl font-bold font-headline">Built for the Trades</h2>
+            <p className="text-muted-foreground text-lg">The "AI Buddy" doesn't just manage data; it acts for you.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-12">
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
               <div className="bg-blue-500/10 w-12 h-12 rounded-2xl flex items-center justify-center text-blue-600">
-                <BellRing className="w-6 h-6" />
+                <MessageSquareText className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-headline">Client Concierge</h3>
-              <p className="text-muted-foreground">The AI automatically texts your clients when you're en route and sends a professional 'Job Complete' summary the moment you're done.</p>
+              <h3 className="text-xl font-bold font-headline">Automated Intake</h3>
+              <p className="text-muted-foreground">Your Buddy can intake requests directly from WhatsApp or Telegram, expanding messy notes into clean job tickets instantly.</p>
             </div>
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
               <div className="bg-accent/10 w-12 h-12 rounded-2xl flex items-center justify-center text-accent">
-                <CalendarCheck2 className="w-6 h-6" />
+                <UserPlus className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-headline">Proactive Scheduler</h3>
-              <p className="text-muted-foreground">It reminds you of upcoming jobs, warns you about traffic, and keeps your day moving without you checking a calendar.</p>
+              <h3 className="text-xl font-bold font-headline">Team Growth Engine</h3>
+              <p className="text-muted-foreground">Scale your business without the overhead. The AI handles dispatching and crew reminders while you focus on high-value work.</p>
             </div>
             <div className="bg-card p-8 rounded-3xl border shadow-sm space-y-4">
               <div className="bg-green-500/10 w-12 h-12 rounded-2xl flex items-center justify-center text-green-600">
                 <Banknote className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold font-headline">Auto-Pilot Payments</h3>
-              <p className="text-muted-foreground">Forget manual billing. Once your AI Buddy verifies the fix via site photos, it sends the payment link instantly.</p>
+              <h3 className="text-xl font-bold font-headline">Zero-Friction Billing</h3>
+              <p className="text-muted-foreground">Once site photos verify the fix, the Buddy sends the payment link. No more manual invoicing at midnight.</p>
             </div>
           </div>
         </section>
@@ -87,18 +87,18 @@ export default function TradeOSHome() {
               <CardHeader className="bg-primary p-10 text-primary-foreground">
                 <LayoutDashboard className="w-12 h-12 mb-4 opacity-80" />
                 <CardTitle className="text-4xl font-headline">The Office Hub</CardTitle>
-                <CardDescription className="text-primary-foreground/80 text-xl">Let the AI manage your crew and clients.</CardDescription>
+                <CardDescription className="text-primary-foreground/80 text-xl">Grow your empire with automated dispatch.</CardDescription>
               </CardHeader>
               <CardContent className="p-10 space-y-8">
                 <ul className="space-y-4 text-lg font-medium">
                   <li className="flex items-center gap-3">
-                    <MessageSquareText className="w-5 h-5 text-primary" /> Automated client arrival updates
+                    <MessageSquareText className="w-5 h-5 text-primary" /> WhatsApp & Telegram Intake
                   </li>
                   <li className="flex items-center gap-3">
-                    <CalendarCheck2 className="w-5 h-5 text-primary" /> AI-optimized route planning
+                    <CalendarCheck2 className="w-5 h-5 text-primary" /> AI Route Optimization
                   </li>
                   <li className="flex items-center gap-3">
-                    <FileText className="w-5 h-5 text-primary" /> Instant professional quote generation
+                    <FileText className="w-5 h-5 text-primary" /> Instant Quote Generation
                   </li>
                 </ul>
                 <ShadButton asChild className="w-full h-14 rounded-2xl text-lg font-bold">
@@ -110,19 +110,19 @@ export default function TradeOSHome() {
             <Card className="border-none shadow-2xl rounded-3xl overflow-hidden group">
               <CardHeader className="bg-accent p-10 text-accent-foreground">
                 <Truck className="w-12 h-12 mb-4 opacity-80" />
-                <CardTitle className="text-4xl font-headline">The Field Companion</CardTitle>
-                <CardDescription className="text-accent-foreground/80 text-xl">The buddy that sits on your dashboard.</CardDescription>
+                <CardTitle className="text-4xl font-headline">The Field Buddy</CardTitle>
+                <CardDescription className="text-accent-foreground/80 text-xl">The partner that watches your back.</CardDescription>
               </CardHeader>
               <CardContent className="p-10 space-y-8">
                 <ul className="space-y-4 text-lg font-medium">
                   <li className="flex items-center gap-3">
-                    <ShieldCheck className="w-5 h-5 text-accent" /> AI Veracity work auditing
+                    <ShieldCheck className="w-5 h-5 text-accent" /> Multimodal Fix Verification
                   </li>
                   <li className="flex items-center gap-3">
-                    <Zap className="w-5 h-5 text-accent" /> One-tap "Job Done" verification
+                    <Zap className="w-5 h-5 text-accent" /> No-Tap Job Summaries
                   </li>
                   <li className="flex items-center gap-3">
-                    <Banknote className="w-5 h-5 text-accent" /> Instant on-site payment collection
+                    <Banknote className="w-5 h-5 text-accent" /> On-Site Instant Payments
                   </li>
                 </ul>
                 <ShadButton asChild className="w-full h-14 rounded-2xl text-lg font-bold bg-accent hover:bg-accent/90">
@@ -142,12 +142,7 @@ export default function TradeOSHome() {
             </div>
             <span className="text-2xl font-bold tracking-tight font-headline">TradeOS</span>
           </div>
-          <div className="flex gap-12 text-sm font-bold text-muted-foreground uppercase tracking-widest">
-            <a href="#" className="hover:text-primary transition-colors">Documentation</a>
-            <a href="#" className="hover:text-primary transition-colors">Privacy</a>
-            <a href="#" className="hover:text-primary transition-colors">Hive Intelligence</a>
-          </div>
-          <p className="text-sm text-muted-foreground font-medium">&copy; 2024 TradeOS Platform. The Buddy is watching your back.</p>
+          <p className="text-sm text-muted-foreground font-medium">&copy; 2024 TradeOS. Built to keep tradespeople in the field and out of the office.</p>
         </div>
       </footer>
     </div>

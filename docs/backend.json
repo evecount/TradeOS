@@ -10,7 +10,7 @@
         "industry": { 
           "type": "string", 
           "enum": ["plumbing", "electrical", "hvac", "landscaping", "auto_repair", "cleaning", "general_contracting"],
-          "description": "The primary industry of the business, used for global 'Variety' pattern indexing."
+          "description": "The primary industry of the business."
         },
         "contactEmail": { "type": "string", "format": "email" },
         "contactPhone": { "type": "string" },
@@ -61,24 +61,16 @@
         "technicianId": { "type": "string" },
         "title": { "type": "string" },
         "description": { "type": "string" },
-        "jobType": {
-          "type": "string",
-          "enum": ["emergency", "repair", "maintenance", "installation", "consultation"],
-          "description": "Standardized category for cross-tenant 'Velocity' and 'Volume' analysis."
+        "source": { 
+          "type": "string", 
+          "enum": ["manual", "whatsapp", "telegram", "sms", "web_portal"],
+          "description": "Where the job request originated from."
         },
         "status": { "type": "string", "enum": ["scheduled", "in_progress", "completed", "cancelled"] },
         "scheduledStartDateTime": { "type": "string", "format": "date-time" },
         "completedAt": { "type": "string", "format": "date-time" },
-        "serviceAddress": { "type": "string" },
-        "workSummary": { 
-          "type": "string",
-          "description": "The AI-validated record of work, used for 'Veracity' audits."
-        },
-        "tags": { 
-          "type": "array", 
-          "items": { "type": "string" },
-          "description": "Specific trade keywords (e.g., 'pipe-leak', 'brake-pads') for 'Value' indexing."
-        }
+        "workSummary": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } }
       },
       "required": ["id", "serviceBusinessId", "customerId", "technicianId", "title", "status"]
     }
@@ -97,11 +89,11 @@
     },
     "/service_businesses/{serviceBusinessId}/technicians/{technicianId}": {
       "schema": { "$ref": "#/backend/entities/Technician" },
-      "description": "Technicians scoped to a specific business ID, using Auth UID as doc ID."
+      "description": "Technicians scoped to a specific business ID."
     },
     "/service_businesses/{serviceBusinessId}/jobs/{jobId}": {
       "schema": { "$ref": "#/backend/entities/Job" },
-      "description": "Jobs scoped to business and assigned technician for cross-tenant AI indexing."
+      "description": "Jobs scoped to business and assigned technician."
     }
   }
 }
