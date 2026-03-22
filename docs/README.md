@@ -18,15 +18,14 @@ Isolation is handled at the `ServiceBusiness` level.
 - All core entities (Jobs, Customers, Invoices) are scoped via a `serviceBusinessId`.
 - Security is enforced via Firestore Rules using **Authorization Independence**.
 
-## 🧠 The "Hive Intelligence" Vision
-TradeOS isn't just an app; it's a **Hive of Trades**. Because every tenant's data follows the exact same variables indexed in `backend.json`, AI agents can:
-1. **Universal Trade Logic:** Treat specific trades (plumbing, auto repair) as *values* rather than unique code structures. A "booking" is a "booking" regardless of the wrench size.
-2. **Deep Learning Indexing:** Standardized fields like `industry`, `jobType`, and `tags` allow the Hive to measure:
-    - **Volume:** How many HVAC emergencies happen during a heatwave?
-    - **Velocity:** How fast can a standard brake job be completed across 500 shops?
-    - **Veracity:** Cross-referencing site evidence photos with work summaries to ensure audit-grade accuracy.
-    - **Value:** Identifying high-margin services across the collective to recommend growth paths to small businesses.
-3. **Privacy-Preserving Learning:** Observe patterns without ever accessing private customer PII.
+## 🧠 The "Hive Intelligence" Vision (The 5 Vs)
+TradeOS isn't just an app; it's a **Hive of Trades**. Because every tenant's data follows the exact same variables indexed in `backend.json`, the platform leverages the 5 Vs to provide a competitive advantage to small businesses:
+
+1. **Volume:** Aggregating job data across thousands of shops to identify macro-trends (e.g., HVAC failure rates during specific weather patterns).
+2. **Velocity:** Measuring the speed of service delivery (generation rate) to benchmark efficiency and predict completion times.
+3. **Variety:** Standardizing diverse trades (plumbing, auto repair, electrical) as values within a unified schema, allowing for cross-industry pattern recognition.
+4. **Veracity:** Using AI to correlate site evidence (photos) with work summaries, ensuring the accuracy and trustworthiness of field data.
+5. **Value:** Turning raw operational data into actionable insights—identifying high-margin services and recommending growth paths for tenants.
 
 ## 🤖 Guidance for Agents (Token Efficiency)
 

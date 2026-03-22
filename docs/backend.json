@@ -10,7 +10,7 @@
         "industry": { 
           "type": "string", 
           "enum": ["plumbing", "electrical", "hvac", "landscaping", "auto_repair", "cleaning", "general_contracting"],
-          "description": "The primary industry of the business, used for global pattern indexing."
+          "description": "The primary industry of the business, used for global 'Variety' pattern indexing."
         },
         "contactEmail": { "type": "string", "format": "email" },
         "contactPhone": { "type": "string" },
@@ -64,16 +64,20 @@
         "jobType": {
           "type": "string",
           "enum": ["emergency", "repair", "maintenance", "installation", "consultation"],
-          "description": "Standardized category for cross-tenant velocity analysis."
+          "description": "Standardized category for cross-tenant 'Velocity' and 'Volume' analysis."
         },
         "status": { "type": "string", "enum": ["scheduled", "in_progress", "completed", "cancelled"] },
         "scheduledStartDateTime": { "type": "string", "format": "date-time" },
+        "completedAt": { "type": "string", "format": "date-time" },
         "serviceAddress": { "type": "string" },
-        "workSummary": { "type": "string" },
+        "workSummary": { 
+          "type": "string",
+          "description": "The AI-validated record of work, used for 'Veracity' audits."
+        },
         "tags": { 
           "type": "array", 
           "items": { "type": "string" },
-          "description": "Specific trade keywords (e.g., 'pipe-leak', 'brake-pads') for value indexing."
+          "description": "Specific trade keywords (e.g., 'pipe-leak', 'brake-pads') for 'Value' indexing."
         }
       },
       "required": ["id", "serviceBusinessId", "customerId", "technicianId", "title", "status"]
