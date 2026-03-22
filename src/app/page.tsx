@@ -33,11 +33,11 @@ export default function TradeOSHome() {
             <Zap className="w-4 h-4" /> Your Proactive Trade Buddy
           </div>
           <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight font-headline leading-[1.05]">
-            No more follow-ups <br />
-            <span className="text-primary">after a long day.</span>
+            Focus on the Fix. <br />
+            <span className="text-primary">No more paperwork.</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            You focus on the fix. Your AI Buddy handles the paperwork, notifies clients, and sends invoices automatically so you can actually go home when the job is done.
+            No more follow-ups after a long day. Your AI Buddy handles the admin, notifies the clients, and sends the invoices so you can actually go home when the job is done.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
             <ShadButton size="lg" className="h-14 px-10 text-lg font-bold shadow-xl shadow-primary/20" asChild>
