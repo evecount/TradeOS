@@ -19,23 +19,22 @@ Isolation is handled at the `ServiceBusiness` level.
 - Security is enforced via Firestore Rules (see `firestore.rules`) using **Authorization Independence**.
 - Documents in subcollections denormalize the `serviceBusinessId` to avoid expensive lookups.
 
-### Project Structure
-- `src/app/dispatcher`: Dashboard for office staff/dispatchers.
-- `src/app/technician`: Mobile-first interface for field workers.
-- `src/ai/flows`: Genkit server actions for AI-powered features (Work summaries, Job enhancements).
-- `src/firebase`: Client-side Firebase SDK configuration and hooks.
-- `docs/backend.json`: The "Source of Truth" for data entities and Firestore paths.
+## 🤖 Guidance for Agents (Token Efficiency)
 
-## 🤖 Guidance for Agents
+To help agents work efficiently and minimize token usage:
 
-1. **Schema First:** Always consult `docs/backend.json` before modifying data structures.
-2. **Client-Side Firebase:** Use the provided hooks (`useCollection`, `useDoc`, `useUser`) from `@/firebase`.
-3. **Non-Blocking Mutations:** Use the utilities in `@/firebase/non-blocking-updates.tsx` to maintain UI responsiveness and offline support.
-4. **Genkit Flows:** Implement GenAI features as server actions in `src/ai/flows`. Ensure they follow the `ai.defineFlow` pattern.
-5. **UI Consistency:** Use ShadCN components. Prefer the `primary` color for Dispatcher UI and `accent` for Technician UI to distinguish contexts.
+1. **Schema-First:** Always consult `docs/backend.json` first. Do not guess field names.
+2. **Standardized Context:** When asking for changes, refer to the "ServiceBusiness" as the Tenant and "Technician" as the User.
+3. **DRY Components:** Check `src/components/ui` for existing Radix/ShadCN components before building new ones.
+4. **Non-Blocking Mutations:** Always use `src/firebase/non-blocking-updates.tsx` for writes to ensure the UI stays responsive without complex local state management.
+5. **Frugal File Updates:** If fixing a UI bug, only modify the specific component; do not rewrite the entire page layout unless requested.
 
 ## 🛠 Active Features
-- [x] AI-powered Job Description expansion.
-- [x] AI-generated Work Summaries for invoicing.
+- [x] AI-powered Job Description expansion (Dispatcher).
+- [x] AI-generated Work Summaries for invoicing (Technician).
 - [x] Real-time job status tracking.
-- [x] Multi-tenant data scoping (Mock layer currently, shifting to Firebase).
+- [x] Multi-tenant data scoping.
+- [x] Mobile-massive UI for field workers.
+
+## 🚀 Vision
+TradeOS isn't just an app; it's a **Platform-as-a-Service**. Business owners (Handymen, Plumbers) sign up to get their own portal. The Homepage must always reflect this "SaaS" nature.
