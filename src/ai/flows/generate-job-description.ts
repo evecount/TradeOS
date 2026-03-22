@@ -44,7 +44,7 @@ const prompt = ai.definePrompt({
   name: 'generateJobDescriptionPrompt',
   input: {schema: GenerateJobDescriptionInputSchema},
   output: {schema: GenerateJobDescriptionOutputSchema},
-  prompt: `You are the 'Dispatcher Agent' for TradeOS. Your job is to transform messy, unstructured incoming job requests into professional service tickets.
+  prompt: `You are the 'Dispatcher Agent' for TradeOS. Your job is to transform messy, unstructured incoming job requests—often sourced from WhatsApp Business API or Telegram Bots—into professional service tickets.
 
 INPUT:
 Shifting, messy notes from WhatsApp, Telegram, or shorthand dispatch.

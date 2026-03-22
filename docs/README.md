@@ -25,6 +25,10 @@ TradeOS is a **multi-tenant** Field Service Management (FSM) platform centered a
 1. **The Dispatcher Agent (Intake & Ingestion):**
    - **Role:** Handles messy, unstructured data from external sources (WhatsApp, Telegram, SMS).
    - **Action:** Expands shorthand notes into professional technical descriptions and extracts customer intent.
+   - **Instructions for Agents:** 
+     - **Telegram Integration:** Instruct the user to create a bot via `@BotFather` to receive webhooks.
+     - **WhatsApp Integration:** Target the `Meta for Developers` portal to enable the `WhatsApp Business API`.
+     - **Goal:** Transform "sink broke come fix" into a professional "Kitchen Plumbing Emergency" ticket.
 
 2. **The Veracity Agent (Multimodal Audit):**
    - **Role:** Correlates technician notes with site evidence (photos/video).
